@@ -67,9 +67,8 @@ string getGamePort() {
 
 void RVExtension(char *output, int outputSize, const char *function)
 {
-
 	cmdLineString = getCommandLine();
-	cmdLineString.c_str();
+	
 	if (!strcmp(function, "version"))
 	{
 		strncpy(output, version, outputSize);
