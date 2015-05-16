@@ -14,12 +14,12 @@ static string cmdLineString = "";
 
 string getParameterValue(string parameterString, string parName) {
 	
-	int parFileIndex = parameterString.find("-" + parName + "=");
-	if (parFileIndex == -1) { // oh great, let's get the parameter file...
+	int parameterPos = parameterString.find("-" + parName + "=");
+	if (parameterPos == -1) {
 		return "";
 	}
 	
-	string filename = parameterString.substr(parFileIndex + parName.length() + 2);
+	string filename = parameterString.substr(parameterPos + parName.length() + 2);
 	int parFileEnd = filename.find(' ');
 	if (parFileEnd != -1) {
 		filename = filename.substr(0, parFileEnd);
