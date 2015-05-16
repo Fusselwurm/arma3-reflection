@@ -18,9 +18,23 @@ Use in SQF context. Return value is a string with format `<error code>,<return v
 
 `"reflection" callExtension "arg(<parametername>)"`
 
+Example: 
+
+```
+_response = ("reflection" callExtension "arg(port)");
+_port = "0";
+if ((_response select [0, 1]) == "0") then {
+        _port = _response select [2];
+} else {
+        diag_log "could not get game server port: " + _response;
+};
+
+```
+
 ### version
 
 `"reflection" callExtension "version()"`
+
 
 # Warning
 
