@@ -15,5 +15,3 @@ fi
 echo "current version: $version"
 
 sed -i -e "s/^static char version\[\] = .*$/static char version\[\] = \"$version\";/" main.cpp
-
-g++ main.cpp -m32 -fPIC -shared -o reflection.so
