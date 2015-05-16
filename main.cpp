@@ -9,7 +9,7 @@
 namespace fs = boost::filesystem;
 using namespace std;
 
-static char version[] = "212e7c8";
+static char version[] = "46f0056";
 static string cmdLineString = "";
 
 string getParameterValue(string parameterString, string parName) {
@@ -65,7 +65,7 @@ string getGamePort() {
 	return getParameterValue(getCompleteCommandLine(), "port");
 }
 
-void RVExtension(char *output, int outputSize, const char *function)
+extern "C" void RVExtension(char *output, int outputSize, const char *function)
 {
 	cmdLineString = getCommandLine();
 	
