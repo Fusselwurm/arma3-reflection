@@ -6,11 +6,12 @@
 #include <fstream>
 #include <string>
 #include "getCommandLine.cpp"
+#include <iostream>
 
 using namespace std;
 
 static char version[] = "46f0056";
-static string cmdLineString = "";
+static string args = "";
 
 inline bool file_exists (const string& name) {
 	ifstream f(name.c_str());
@@ -48,7 +49,7 @@ string getParameterValue(string parameterString, string parName) {
 }
 
 string getArgsFileContents() {
-	string filename = getParameterValue(cmdLineString, "par");
+	string filename = getParameterValue(args, "par");
 
 	if (!file_exists(filename)) {
 		// "warning: cannot find parameter file " << filename;
@@ -60,11 +61,11 @@ string getArgsFileContents() {
 
 
 string getCompleteCommandLine() {
-	cmdLineString = getCommandLine();
+	args = getCommandLine();
 
 	string argsFileContents = getArgsFileContents();
 	replace(argsFileContents.begin(), argsFileContents.end(), '\n', ' ');
-	string completeParamString = cmdLineString + " " + argsFileContents;
+	string completeParamString = args + " " + argsFileContents;
 
 	return completeParamString;
 }
@@ -73,22 +74,46 @@ string getGamePort() {
 	return getParameterValue(getCompleteCommandLine(), "port");
 }
 
-extern "C" void RVExtension(char *output, int outputSize, const char *function)
+extern "C" void RVExtension(char *output, int outputSize, const char *cmd)
 {
-	cmdLineString = getCommandLine();
+	args = getCommandLine();
 
-	if (!strcmp(function, "version"))
+	string cmdString = string(cmd);
+	string result;
+	int openIdx = cmdString.find('(');
+	if (openIdx == -1) {
+		strncpy(output, "1:bad syntax", outputSize);
+		cout << openIdx;
+		return;
+	}
+	if (cmdString.find_last_of(')') != cmdString.size() - 1) {
+		strncpy(output, "1, bad syntax", outputSize);
+		return;
+	} 	
+	string fn = cmdString.substr(0, openIdx);
+	string param = cmdString.substr(openIdx + 1, cmdString.length() - openIdx - 2);
+
+	if (!strcmp(fn.c_str(), "version"))
 	{
 		strncpy(output, version, outputSize);
 	}
-	else if (!strcmp(function, "gameport"))
+	else if (!strcmp(fn.c_str(), "arg"))
 	{
-		strncpy(output, getGamePort().c_str(), outputSize);
+		string val = getParameterValue(getCompleteCommandLine(), param);
+		strncpy(output, (string("0,") + val).c_str(), outputSize);
 	} else {
-		strncpy(output, "unknown function", outputSize);
+		strncpy(output, "1,unknown function. known functions: version(), arg(<paramName>)", outputSize);
 	}
 
 	output[outputSize - 1] = '\0';
 
 	return;
 }
+/*
+int main( int argc, const char* argv[] ) {
+	char foo[100];
+	RVExtension(foo, 100, "arg(foo)");
+	cout << foo;
+	return 0;
+}
+*/
