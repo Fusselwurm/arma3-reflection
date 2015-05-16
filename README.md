@@ -22,3 +22,8 @@ Use in SQF context. Return value is a string with format `<error code>,<return v
 
 `"reflection" callExtension "version()"`
 
+# Warning
+
+This is me while doing C++ . You have been warned
+
+![I have no idea what I'm doing](http://i3.kym-cdn.com/photos/images/facebook/000/234/765/b7e.jpg)
