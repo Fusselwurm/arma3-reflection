@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <sstream>
 #include <sys/stat.h>
+#include <streambuf>
 #include <fstream>
 #include <string>
 #include "getCommandLine.cpp"
@@ -22,12 +23,13 @@ inline bool file_exists (const string& name) {
 	}
 }
 
-string file_get_contents(string filename) {
-	string str;
-	ifstream t(filename);
-	string str((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
+string file_get_contents(const string& filename) {
+	ifstream inFile;
+	inFile.open(filename.c_str());//open the input file
 
-	return str;
+	stringstream strStream;
+	strStream << inFile.rdbuf();//read the file
+	return strStream.str();//str holds the content of the file
 }
 
 string getParameterValue(string parameterString, string parName) {
@@ -49,11 +51,11 @@ string getArgsFileContents() {
 	string filename = getParameterValue(cmdLineString, "par");
 
 	if (!file_exists(filename)) {
-		cerr << "warning: cannot find parameter file " << filename;
+		// "warning: cannot find parameter file " << filename;
 		return "";
 	}
 
-	return file_get_contents(filename)
+	return file_get_contents(filename);
 }
 
 
