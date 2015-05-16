@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <climits>
+#include <string>
+
+using namespace std;
 
 char * getCommandLine() {
 	char * path = NULL;
