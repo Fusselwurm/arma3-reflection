@@ -16,7 +16,7 @@ Use in SQF context. Return value is a string with format `<error code>,<return v
 
 ### arg
 
-`"reflection" callExtension "arg(<parametername>)""
+`"reflection" callExtension "arg(<parametername>)"`
 
 ### version
 
