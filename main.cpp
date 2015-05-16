@@ -1,24 +1,42 @@
 #include <string.h>     // strcmp, strncpy
 #include <algorithm>
 #include <sstream>
-#include <boost/filesystem.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include "getCommandLine.cpp"
+#include <sys/stat.h>
+#include <fstream>
 #include <string>
+#include "getCommandLine.cpp"
 
-namespace fs = boost::filesystem;
 using namespace std;
 
 static char version[] = "46f0056";
 static string cmdLineString = "";
 
+inline bool file_exists (const string& name) {
+	ifstream f(name.c_str());
+	if (f.good()) {
+		f.close();
+		return true;
+	} else {
+		f.close();
+		return false;
+	}
+}
+
+string file_get_contents(string filename) {
+	string str;
+	ifstream t(filename);
+	string str((istreambuf_iterator<char>(t)), istreambuf_iterator<char>());
+
+	return str;
+}
+
 string getParameterValue(string parameterString, string parName) {
-	
+
 	int parameterPos = parameterString.find("-" + parName + "=");
 	if (parameterPos == -1) {
 		return "";
 	}
-	
+
 	string filename = parameterString.substr(parameterPos + parName.length() + 2);
 	int parFileEnd = filename.find(' ');
 	if (parFileEnd != -1) {
@@ -29,35 +47,23 @@ string getParameterValue(string parameterString, string parName) {
 
 string getArgsFileContents() {
 	string filename = getParameterValue(cmdLineString, "par");
-	
-	if (!fs::exists(filename)) {
+
+	if (!file_exists(filename)) {
 		cerr << "warning: cannot find parameter file " << filename;
 		return "";
 	}
-	
-	fs::ifstream fIn;
-	fIn.open(filename.c_str(), std::ios::in);
 
-	if (!fIn) {
-		cerr << "string load_data_in_str(string fname)" << endl;
-		cerr << "Error reading the file: " << filename << endl;
-		return "";
-	}
-	
-	stringstream ss;
-	ss << fIn.rdbuf();
-	
-	return ss.str();
+	return file_get_contents(filename)
 }
 
 
 string getCompleteCommandLine() {
 	cmdLineString = getCommandLine();
-	
+
 	string argsFileContents = getArgsFileContents();
 	replace(argsFileContents.begin(), argsFileContents.end(), '\n', ' ');
 	string completeParamString = cmdLineString + " " + argsFileContents;
-	
+
 	return completeParamString;
 }
 
@@ -68,7 +74,7 @@ string getGamePort() {
 extern "C" void RVExtension(char *output, int outputSize, const char *function)
 {
 	cmdLineString = getCommandLine();
-	
+
 	if (!strcmp(function, "version"))
 	{
 		strncpy(output, version, outputSize);
@@ -81,14 +87,6 @@ extern "C" void RVExtension(char *output, int outputSize, const char *function)
 	}
 
 	output[outputSize - 1] = '\0';
-	
+
 	return;
 }
-
-/*
-int main( int argc, const char* argv[] )
-{	
-	cout << getGamePort();
-	return 0;
-}
-*/
