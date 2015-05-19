@@ -16,7 +16,7 @@ reflection.so: clean main.o
 	${CC} -m32 -shared -o reflection.so  main.o
 	@echo 'Finished building target: $@'
 
-main.o: setup
+arma3-reflection/main.o: setup
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Compiler'
 	${CC} -Wall -c -fmessage-length=0 -m32 -fPIC -o main.o main.cpp
