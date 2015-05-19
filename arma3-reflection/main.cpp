@@ -1,4 +1,5 @@
 #include "getCommandLine.h"
+#include <string.h>
 #include <string>
 #include <algorithm>
 #include <sstream>
