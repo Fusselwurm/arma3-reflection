@@ -1,11 +1,20 @@
 #include <stdio.h>
-#include <unistd.h>
+
+#ifdef _WIN32
+	#include <Windows.h>
+#else
+	#include <unistd.h>
+#endif
 #include <climits>
 #include <string>
 
 using namespace std;
 
-char * getCommandLine() {
+char* getCommandLine() {
+#ifdef _WIN32
+	LPSTR cmdLine = GetCommandLineA();
+	return cmdLine;
+#else
 	char * path = NULL;
 	char * msg = NULL;
 	char * cmdline = new char[_POSIX_ARG_MAX];
@@ -43,4 +52,5 @@ char * getCommandLine() {
 		fclose(file);
 
 	return cmdline;
+#endif
 }
