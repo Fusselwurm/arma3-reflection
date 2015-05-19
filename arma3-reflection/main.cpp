@@ -106,7 +106,10 @@ extern "C" void RVExtension(char *output, int outputSize, const char *cmd)
 	//resolve function names
 	if (fn.compare("version") == 0)
 	{
-		len = strlen(version);
+
+		std::string response("[0,\"");
+		response = response.append(version).append("\"]");
+		len = response.size();
 		if (len >= outputSize)
 		{
 			strncpy(output, "[1, \"outputSize too small\"]", outputSize);
@@ -114,7 +117,7 @@ extern "C" void RVExtension(char *output, int outputSize, const char *cmd)
 		}
 		else
 		{
-			strncpy(output, version, len);
+			strncpy(output, response.c_str(), len);
 		}
 	}
 	else if (fn.compare("arg") == 0)
