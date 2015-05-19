@@ -1,16 +1,17 @@
 # arma3-reflection
-sqf scripts get access to server CL parameters
 
-
-This is an arma3 server extension that provides access to the arma3  command line parameters.
+This is an arma3 server extension that provides access to the Arma3  command line parameters.
 
 ## Installation
 
-Put the `reflection.so` into your arma dir
+Compile either as VS project (Windows) or using the `make` (Linux).
+
+Put the `reflection.so` or `dll` into your arma dir
+
 
 ## Usage
 
-Use in SQF context. Return value is a string with format `<error code>,<return value>`.
+Use in SQF context. Return value is a string containing an SQF array of the format `[<int: error code>,<string: return value>]`.
 
 * Error code `0` means success
 
@@ -18,13 +19,13 @@ Use in SQF context. Return value is a string with format `<error code>,<return v
 
 `"reflection" callExtension "arg(<parametername>)"`
 
-Example: 
+Example:
 
 ```
 _response = ("reflection" callExtension "arg(port)");
 _port = "0";
-if ((_response select [0, 1]) == "0") then {
-        _port = _response select [2];
+if ((count _response > 0)) then {
+        _port = (call compile _response) select 1;
 } else {
         diag_log "could not get game server port: " + _response;
 };
@@ -34,7 +35,6 @@ if ((_response select [0, 1]) == "0") then {
 ### version
 
 `"reflection" callExtension "version()"`
-
 
 # Warning
 
