@@ -13,7 +13,7 @@
 using namespace std;
 
 #ifndef __linux__
-extern "C" DLLEXPORT void __stdcall RVExtension(char *output, int outputSize, const char *cmd);
+extern "C" __declspec(dllexport) void __stdcall RVExtension(char *output, int outputSize, const char *cmd);
 #endif
 
 static char version[] = "46f0056";
