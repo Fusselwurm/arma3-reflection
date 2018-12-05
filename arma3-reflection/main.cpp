@@ -12,6 +12,10 @@
 
 using namespace std;
 
+#ifndef __linux__
+extern "C" DLLEXPORT void __stdcall RVExtension(char *output, int outputSize, const char *cmd);
+#endif
+
 static char version[] = "46f0056";
 static string args = "";
 
@@ -82,7 +86,11 @@ std::string escapeString(const std::string inString)
 	retString.push_back('\0');
 	return std::string(retString.data());
 }
+#ifdef __linux__
 extern "C" void RVExtension(char *output, int outputSize, const char *cmd)
+#else
+void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
+#endif
 {
 	//Set a global variable with current command line and make sure we just do it once
 	if (args.empty())
