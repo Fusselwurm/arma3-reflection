@@ -74,7 +74,7 @@ string getGamePort() {
 std::string escapeString(const std::string inString)
 {
 	std::vector<char> retString;
-	for (int i = 0; i < inString.length(); i++)
+	for (size_t i = 0; i < inString.length(); i++)
 	{
 		const char& c = inString[i];
 		switch (c)
@@ -92,6 +92,7 @@ extern "C" void RVExtension(char *output, int outputSize, const char *cmd)
 void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 #endif
 {
+	size_t outputSizeUnsigned = outputSize;
 	//Set a global variable with current command line and make sure we just do it once
 	if (args.empty())
 		args = getCommandLine();
@@ -102,7 +103,7 @@ void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 	int openIdx = cmdString.find('(');
 	if (openIdx == -1 || cmdString.find_last_of(')') != cmdString.size() - 1)
 	{
-		strncpy(output, "[1,\"bad syntax\"]", outputSize);
+		strncpy(output, "[1,\"bad syntax\"]", outputSizeUnsigned);
 		return;
 	}
 	const std::string fn = cmdString.substr(0, openIdx);
@@ -118,10 +119,10 @@ void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 		std::string response("[0,\"");
 		response = response.append(version).append("\"]");
 		len = response.size();
-		if (len >= outputSize)
+		if (len >= outputSizeUnsigned)
 		{
-			strncpy(output, "[1, \"outputSize too small\"]", outputSize);
-			len = outputSize - 1;
+			strncpy(output, "[1, \"outputSize too small\"]", outputSizeUnsigned);
+			len = outputSizeUnsigned - 1;
 		}
 		else
 		{
@@ -132,10 +133,10 @@ void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 	{
 		std::string str = std::string("[0,\"").append(escapeString(getParameterValue(getCompleteCommandLine(), param))).append("\"]");
 		len = str.length();
-		if (len >= outputSize)
+		if (len >= outputSizeUnsigned)
 		{
-			strncpy(output, "[1, \"outputSize too small\"]", outputSize);
-			len = outputSize - 1;
+			strncpy(output, "[1, \"outputSize too small\"]", outputSizeUnsigned);
+			len = outputSizeUnsigned - 1;
 		}
 		else
 		{
@@ -146,10 +147,10 @@ void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 	{
 		std::string str = std::string("[0,\"").append(escapeString(getCompleteCommandLine())).append("\"]");
 		len = str.length();
-		if (len >= outputSize)
+		if (len >= outputSizeUnsigned)
 		{
-			strncpy(output, "[1, \"outputSize too small\"]", outputSize);
-			len = outputSize - 1;
+			strncpy(output, "[1, \"outputSize too small\"]", outputSizeUnsigned);
+			len = outputSizeUnsigned - 1;
 		}
 		else
 		{
@@ -160,10 +161,10 @@ void __stdcall RVExtension(char *output, int outputSize, const char *cmd)
 	{
 		char* str = "[1,\"unknown function. known functions: version(), arg(<paramName>)\"]";
 		len = strlen(str);
-		if (len >= outputSize)
+		if (len >= outputSizeUnsigned)
 		{
-			strncpy(output, "[1, \"outputSize too small\"]", outputSize);
-			len = outputSize - 1;
+			strncpy(output, "[1, \"outputSize too small\"]", outputSizeUnsigned);
+			len = outputSizeUnsigned - 1;
 		}
 		else
 		{
