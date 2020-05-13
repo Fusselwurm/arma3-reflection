@@ -1,3 +1,5 @@
+![Linux build](https://github.com/Fusselwurm/arma3-reflection/workflows/C/Linux x86 build/badge.svg)
+
 # arma3-reflection
 
 This is an arma3 server extension that provides access to the Arma3  command line parameters.
