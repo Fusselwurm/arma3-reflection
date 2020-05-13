@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 32bit libs
-      run: apt-get install gcc-multilib        
+      run: sudo apt-get install gcc-multilib        
     - uses: actions/checkout@v2
     - name: make
       run: make
