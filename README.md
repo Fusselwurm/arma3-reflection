@@ -1,4 +1,4 @@
-![Linux build](https://github.com/Fusselwurm/arma3-reflection/workflows/C/Linux%20x86%20build/badge.svg)
+![Linux build](https://github.com/Fusselwurm/arma3-reflection/workflows/Linux%20x86%20build/badge.svg)
 
 # arma3-reflection
 
