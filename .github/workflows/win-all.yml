@@ -20,10 +20,10 @@ jobs:
     - name: Upload build artifact Win32
       uses: actions/upload-artifact@v2
       with:
-        name: arma3-reflection-Win32
-        path: arma3-reflection/bin/Release|Win32
+        name: reflection.dll
+        path: D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll
     - name: Upload build artifact x64
       uses: actions/upload-artifact@v2
       with:
-        name: arma3-reflection-x64
-        path: arma3-reflection/bin/Release|x64
+        name: reflection_x64.dll
+        path: D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll
