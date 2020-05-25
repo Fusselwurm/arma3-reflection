@@ -1,0 +1,78 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: create release
+
+jobs:
+  create_release:
+    name: create github release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Version ${{ github.ref }}
+          draft: false
+          prerelease: false
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+  build-win:
+    name: build & upload Windows binaries
+    runs-on: windows-latest
+    needs: ["create_release"]
+    steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1
+      - uses: actions/checkout@v2
+      - name: Build Win32
+        run: msbuild /p:Configuration=Release /p:Platform=Win32
+      - name: Upload Win32
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: .\arma3-reflection\Release\arma3-reflection.dll
+          asset_name: reflection.dll
+          asset_content_type: application/octet-stream
+      - name: Build x64
+        run: msbuild /p:Configuration=Release /p:Platform=x64
+      - name: Upload Win64
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: .\arma3-reflection\x64\Release\arma3-reflection.dll
+          asset_name: reflection_x64.dll
+          asset_content_type: application/octet-stream
+  build-linux:
+    runs-on: ubuntu-latest
+    name: build & upload Linux binary
+    needs: ["create_release"]
+    steps:
+      - name: update apt index
+        run: sudo apt-get update
+      - name: 32bit libs
+        run: sudo apt-get install gcc-multilib g++-multilib
+      - uses: actions/checkout@v2
+      - name: make
+        run: make
+      - name: Upload library
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./reflection.so
+          asset_name: reflection.so
+          asset_content_type: application/octet-stream
