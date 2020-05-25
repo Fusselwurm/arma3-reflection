@@ -41,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: .\arma3-reflection\Release\arma3-reflection.dll
+          asset_path: D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll
           asset_name: reflection.dll
           asset_content_type: application/octet-stream
       - name: Build x64
@@ -52,7 +52,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: .\arma3-reflection\x64\Release\arma3-reflection.dll
+          asset_path: D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll
           asset_name: reflection_x64.dll
           asset_content_type: application/octet-stream
   build-linux:
