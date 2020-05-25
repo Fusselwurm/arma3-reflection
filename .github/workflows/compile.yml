@@ -1,0 +1,44 @@
+name: compile
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: update apt index
+      run: sudo apt-get update
+    - name: 32bit libs
+      run: sudo apt-get install gcc-multilib g++-multilib
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
+    - name: Upload build artifact x86
+      uses: actions/upload-artifact@v2
+      with:
+        name: arma3-reflection.so
+        path: reflection.so
+  windows:
+    runs-on: windows-latest
+    steps:
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1
+      - uses: actions/checkout@v2
+      - name: Build solution Win32
+        run: msbuild /p:Configuration=Release /p:Platform=Win32
+      - name: Build solution x64
+        run: msbuild /p:Configuration=Release /p:Platform=x64
+      - name: Upload build artifact Win32
+        uses: actions/upload-artifact@v2
+        with:
+          name: reflection.dll
+          path: D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll
+      - name: Upload build artifact x64
+        uses: actions/upload-artifact@v2
+        with:
+          name: reflection_x64.dll
+          path: D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll
