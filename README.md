@@ -1,4 +1,5 @@
-![Linux build](https://github.com/Fusselwurm/arma3-reflection/workflows/Linux%20x86%20build/badge.svg)
+![master](https://github.com/Fusselwurm/arma3-reflection/workflows/compile/badge.svg)
+![version](https://img.shields.io/github/v/release/Fusselwurm/arma3-reflection)
 
 # arma3-reflection
 
