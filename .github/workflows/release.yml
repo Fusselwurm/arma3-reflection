@@ -25,8 +25,8 @@ jobs:
           prerelease: false
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-  build-win:
-    name: build & upload Windows binaries
+  build_win:
+    name: build Windows binaries
     runs-on: windows-latest
     needs: ["create_release"]
     steps:
@@ -35,29 +35,23 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Win32
         run: msbuild /p:Configuration=Release /p:Platform=Win32
+      - run: copy D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll reflection.dll
       - name: Upload Win32
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v2
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll
-          asset_name: reflection.dll
-          asset_content_type: application/octet-stream
+          name: extension
+          path: reflection.dll
       - name: Build x64
         run: msbuild /p:Configuration=Release /p:Platform=x64
+      - run: copy D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll reflection_x64.dll
       - name: Upload Win64
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v2
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll
-          asset_name: reflection_x64.dll
-          asset_content_type: application/octet-stream
-  build-linux:
+          name: extension
+          path: reflection_x64.dll
+  build_linux:
     runs-on: ubuntu-latest
-    name: build & upload Linux binary
+    name: build Linux binary
     needs: ["create_release"]
     steps:
       - name: update apt index
@@ -67,12 +61,34 @@ jobs:
       - uses: actions/checkout@v2
       - name: make
         run: make
-      - name: Upload library
+      - name: Upload Linux
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: ./reflection.so
+  pack_and_upload_mod:
+    runs-on: ubuntu-latest
+    name: build & upload mod
+    needs: ["build_win", "build_linux"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: extension
+      - name: copy compiled extensions into mod
+        run: cp *.dll *.so ./mod
+      - name: pack
+        id: pack
+        uses: gruppe-adler/action-release-with-hemtt@cwd
+        with:
+          cwd: ./mod
+      - name: Upload
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./reflection.so
-          asset_name: reflection.so
-          asset_content_type: application/octet-stream
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: "@arma3_reflection.zip"
+          asset_name: "@arma3_reflection.zip"
+          asset_content_type: application/zip

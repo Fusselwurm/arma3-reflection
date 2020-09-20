@@ -20,7 +20,7 @@ jobs:
     - name: Upload build artifact x86
       uses: actions/upload-artifact@v2
       with:
-        name: arma3-reflection.so
+        name: extension
         path: reflection.so
   windows:
     runs-on: windows-latest
@@ -32,13 +32,37 @@ jobs:
         run: msbuild /p:Configuration=Release /p:Platform=Win32
       - name: Build solution x64
         run: msbuild /p:Configuration=Release /p:Platform=x64
+      - run: copy D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll reflection.dll 
       - name: Upload build artifact Win32
         uses: actions/upload-artifact@v2
         with:
-          name: reflection.dll
-          path: D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll
+          name: extension
+          path: reflection.dll 
+      - run: copy D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll reflection_x64.dll 
       - name: Upload build artifact x64
+        uses: actions/upload-artifact@v2    
+        with:
+          name: extension
+          path: reflection_x64.dll 
+  pack_mod:
+    runs-on: ubuntu-latest
+    name: build mod
+    needs: ["windows", "linux"]
+    steps:      
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: extension
+      - name: copy compiled extensions into mod
+        run: cp *.dll *.so ./mod
+      - name: pack
+        id: pack
+        uses: gruppe-adler/action-release-with-hemtt@cwd
+        with:
+          cwd: ./mod
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: reflection_x64.dll
-          path: D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll
+          path: ${{ steps.pack.outputs.zip_path }}
+          name: mod
