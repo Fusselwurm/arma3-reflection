@@ -1,0 +1,14 @@
+name = "arma3_reflection"
+prefix = "arma3_reflection"
+author = "Fusselwurm"
+template = "cba"
+mainprefix = "z"
+folder_optionals = false
+sig_version = 3
+
+files = [
+    "reflection.so",
+    "reflection.dll",
+    "reflection_x64.dll",
+    "README.md"
+]
