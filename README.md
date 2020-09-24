@@ -3,16 +3,17 @@
 
 # arma3-reflection
 
-This is an arma3 server extension that provides access to the Arma3  command line parameters.
+This is an Arma3 mod that provides access to the Arma3 command line parameters.
 
 ## Installation
 
-Compile either as VS project (Windows) or using the `make` (Linux).
+Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=2237948948) , from the [releases page](https://github.com/Fusselwurm/arma3-reflection/releases) or build it yourself.
 
-Put the `reflection.so` or `dll` into your arma dir
+## Usage: the functions
 
+for example `[] call arma3_reflection_args_fnc_getPort` , `[parameterName] call arma3_reflection_args_fnc_getArgument`
 
-## Usage
+## Usage: the extension
 
 Use in SQF context. Return value is a string containing an SQF array of the format `[<int: error code>,<string: return value>]`.
 
