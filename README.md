@@ -11,7 +11,17 @@ Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=22
 
 ## Usage: the functions
 
-for example `[] call arma3_reflection_args_fnc_port` , `[parameterName] call arma3_reflection_args_fnc_getArgument`
+### arma3_reflection_args module
+
+This module contains functions to access the command line parameters Arma3 was started with.
+
+#### arma3_reflection_args_fnc_getArgument
+
+        [_paramaterName] call arma3_reflection_args_fnc_getArgument
+
+#### arma3_reflection_args_fnc_port
+
+        [] call arma3_reflection_args_fnc_port
 
 ## Usage: the extension
 
@@ -19,29 +29,7 @@ Use in SQF context. Return value is a string containing an SQF array of the form
 
 * Error code `0` means success
 
-### arg
-
-`"reflection" callExtension "arg(<parametername>)"`
-
-Example:
-
-```
-_response = ("reflection" callExtension "arg(port)");
-_port = "0";
-if ((count _response > 0)) then {
-        _port = (call compile _response) select 1;
-} else {
-        diag_log "could not get game server port: " + _response;
-};
-
-```
 
 ### version
 
 `"reflection" callExtension "version()"`
-
-# Warning
-
-This is me while doing C++ . You have been warned
-
-![I have no idea what I'm doing](http://i3.kym-cdn.com/photos/images/facebook/000/234/765/b7e.jpg)
