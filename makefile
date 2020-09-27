@@ -19,13 +19,13 @@ reflection.so: clean setup main.o getCommandLine.o
 main.o: 
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Compiler'
-	${CC} -Wall -c -fmessage-length=0 -m32 -fPIC -o main.o arma3-reflection/main.cpp
+	${CC} -Wall -c -fmessage-length=0 -m32 -fPIC -o main.o extension/main.cpp
 	@echo 'Finished building target: $@'
 
 getCommandLine.o: 
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Compiler'
-	${CC} -Wall -c -fmessage-length=0 -m32 -fPIC -o getCommandLine.o arma3-reflection/getCommandLine.cpp
+	${CC} -Wall -c -fmessage-length=0 -m32 -fPIC -o getCommandLine.o extension/getCommandLine.cpp
 	@echo 'Finished building target: $@'
 
 
