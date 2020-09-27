@@ -11,7 +11,7 @@ Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=22
 
 ## Usage: the functions
 
-for example `[] call arma3_reflection_args_fnc_getPort` , `[parameterName] call arma3_reflection_args_fnc_getArgument`
+for example `[] call arma3_reflection_args_fnc_port` , `[parameterName] call arma3_reflection_args_fnc_getArgument`
 
 ## Usage: the extension
 
