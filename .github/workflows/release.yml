@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Win32
         run: msbuild /p:Configuration=Release /p:Platform=Win32
-      - run: copy D:\a\arma3-reflection\extension\Release\arma3-reflection.dll reflection.dll
+      - run: copy D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll reflection.dll
       - name: Upload Win32
         uses: actions/upload-artifact@v2
         with:
@@ -43,7 +43,7 @@ jobs:
           path: reflection.dll
       - name: Build x64
         run: msbuild /p:Configuration=Release /p:Platform=x64
-      - run: copy D:\a\arma3-reflection\extension\x64\Release\arma3-reflection.dll reflection_x64.dll
+      - run: copy D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll reflection_x64.dll
       - name: Upload Win64
         uses: actions/upload-artifact@v2
         with:
