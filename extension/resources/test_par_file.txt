@@ -1,0 +1,2 @@
+-mod=C:\foo\bar;
+-otherparam
