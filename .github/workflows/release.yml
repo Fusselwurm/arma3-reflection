@@ -25,47 +25,40 @@ jobs:
           prerelease: false
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
-  build_win:
-    name: build Windows binaries
-    runs-on: windows-latest
+  build_linux:
+    runs-on: ubuntu-latest
     needs: ["create_release"]
     steps:
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1
       - uses: actions/checkout@v2
-      - name: Build Win32
-        run: msbuild /p:Configuration=Release /p:Platform=Win32
-      - run: copy D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll reflection.dll
-      - name: Upload Win32
+      - name: get toolchain
+        with:
+          toolchain: stable
+        uses: actions-rs/toolchain@v1
+      - name: cargo build
+        run: cd extension && cargo build --release
+      - run: cp extension/target/release/libarma3_reflection.so reflection_x64.so
+      - name: Upload build artifact x86
         uses: actions/upload-artifact@v2
         with:
           name: extension
-          path: reflection.dll
-      - name: Build x64
-        run: msbuild /p:Configuration=Release /p:Platform=x64
-      - run: copy D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll reflection_x64.dll
-      - name: Upload Win64
+          path: reflection_x64.so
+  build_windows:
+    runs-on: windows-latest
+    needs: ["create_release"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: get toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: cargo build win64
+        run: cd extension && cargo build --release
+      - run: copy extension/target/release/arma3_reflection.dll reflection_x64.dll
+      - name: Upload build artifact x64
         uses: actions/upload-artifact@v2
         with:
           name: extension
           path: reflection_x64.dll
-  build_linux:
-    runs-on: ubuntu-latest
-    name: build Linux binary
-    needs: ["create_release"]
-    steps:
-      - name: update apt index
-        run: sudo apt-get update
-      - name: 32bit libs
-        run: sudo apt-get install gcc-multilib g++-multilib
-      - uses: actions/checkout@v2
-      - name: make
-        run: make
-      - name: Upload Linux
-        uses: actions/upload-artifact@v2
-        with:
-          name: extension
-          path: ./reflection.so
   pack_and_upload_mod:
     runs-on: ubuntu-latest
     name: build & upload mod
