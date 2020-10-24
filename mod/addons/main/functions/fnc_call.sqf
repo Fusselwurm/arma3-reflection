@@ -8,9 +8,7 @@ params [
 	["_params", [], [[]]]
 ];
 
-private _call = format ["%1(%2)", _method, _params joinString ","];
-
-private _rawResponse = ("reflection" callExtension _call);
+private _rawResponse = ("reflection" callExtension [_method, _params]);
 if (count _rawResponse == 0) exitWith {
 		ERROR("no answer for reflection.so call :(");
 		[-1]
