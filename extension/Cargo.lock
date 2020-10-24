@@ -12,7 +12,7 @@ dependencies = [
 [[package]]
 name = "arma-rs"
 version = "0.2.0"
-source = "git+https://github.com/gruppe-adler/arma-rs?branch=master#4f0be98047a6f94b73d5ba0632e8c2af61f75b15"
+source = "git+https://github.com/gruppe-adler/arma-rs#4f0be98047a6f94b73d5ba0632e8c2af61f75b15"
 dependencies = [
  "arma-rs-codegen",
  "libc",
@@ -21,7 +21,7 @@ dependencies = [
 [[package]]
 name = "arma-rs-codegen"
 version = "0.2.0"
-source = "git+https://github.com/gruppe-adler/arma-rs?branch=master#4f0be98047a6f94b73d5ba0632e8c2af61f75b15"
+source = "git+https://github.com/gruppe-adler/arma-rs#4f0be98047a6f94b73d5ba0632e8c2af61f75b15"
 dependencies = [
  "lazy_static",
  "proc-macro2",
@@ -31,7 +31,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "arma3-reflection-rust"
+name = "arma3-reflection"
 version = "0.1.0"
 dependencies = [
  "arma-rs",

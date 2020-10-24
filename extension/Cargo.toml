@@ -1,5 +1,5 @@
 [package]
-name = "arma3-reflection-rust"
+name = "arma3-reflection"
 version = "0.1.0"
 authors = ["Fusselwurm <fusselwurm@gmail.com>"]
 edition = "2018"
