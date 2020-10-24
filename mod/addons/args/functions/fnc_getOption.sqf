@@ -4,9 +4,7 @@
  * return [error, value] with error == "" if everything is fine
  */
 params [
-	["_argName", "", [""]]
+	["_optName", "", [""]]
 ];
 
-assert(_argName != "");
-
-["arg", [_argName]] call EFUNC(main,call);
+assert("not implemented" isEqualTo false);
