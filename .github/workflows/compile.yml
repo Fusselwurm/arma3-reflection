@@ -7,7 +7,26 @@ on:
     branches: [ master ]
 
 jobs:
-  linux:
+  linux32:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: gcc-multilib for cross compiling to 32bit
+        run: sudo apt-get install gcc-multilib
+      - name: get toolchain
+        with:
+          toolchain: stable
+          target: i686-unknown-linux-gnu
+        uses: actions-rs/toolchain@v1
+      - name: cargo build
+        run: cd extension && cargo build --release --target=i686-unknown-linux-gnu
+      - run: cp extension/target/i686-unknown-linux-gnu/release/libarma3_reflection.so reflection.so
+      - name: upload artifact linux32
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: reflection.so
+  linux64:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,12 +37,29 @@ jobs:
       - name: cargo build
         run: cd extension && cargo build --release
       - run: cp extension/target/release/libarma3_reflection.so reflection_x64.so
-      - name: Upload build artifact x86
+      - name: upload artifact linux64
         uses: actions/upload-artifact@v2
         with:
           name: extension
           path: reflection_x64.so
-  windows:
+  windows32:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: i686-pc-windows-msvc
+      - name: cargo build win32
+        run: cd extension && cargo build --release --target=i686-pc-windows-msvc
+      - run: copy extension/target/i686-pc-windows-msvc/release/arma3_reflection.dll reflection.dll
+      - name: upload artifact win32
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: reflection.dll
+  windows64:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +70,7 @@ jobs:
       - name: cargo build win64
         run: cd extension && cargo build --release
       - run: copy extension/target/release/arma3_reflection.dll reflection_x64.dll
-      - name: Upload build artifact x64
+      - name: upload artifact win64
         uses: actions/upload-artifact@v2
         with:
           name: extension
@@ -42,7 +78,7 @@ jobs:
   pack_mod:
     runs-on: ubuntu-latest
     name: build mod
-    needs: ["windows", "linux"]
+    needs: ["linux32", "linux64", "windows32", "windows64"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -50,7 +86,7 @@ jobs:
         with:
           name: extension
       - name: copy compiled extensions into mod
-        run: cp *.dll *.so ./mod
+        run: cp -v *.dll *.so ./mod
       - name: pack
         id: pack
         uses: gruppe-adler/action-release-with-hemtt@2.1.0
