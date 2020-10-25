@@ -15,11 +15,19 @@ Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=22
 
 This module contains functions to access the command line parameters Arma3 was started with.
 
-#### arma3_reflection_args_fnc_getArgument
+#### arma3_reflection_args_fnc_getOptionFirst
 
-        [_paramaterName] call arma3_reflection_args_fnc_getArgument
+return first value of `_optionName` to be found in the command line arguments
+
+```sqf
+        [_optionName] call arma3_reflection_args_fnc_getOptionFirst
+```
 
 #### arma3_reflection_args_fnc_port
 
+return `-port` parameter value or 0
+
+```sqf
         [] call arma3_reflection_args_fnc_port
+```        
 
