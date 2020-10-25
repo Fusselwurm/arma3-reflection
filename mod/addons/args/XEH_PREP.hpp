@@ -1,2 +1,3 @@
-PREP(getArgument);
+PREP(getOptionFirst);
+PREP(getOption);
 PREP(port);

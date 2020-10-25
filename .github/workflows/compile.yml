@@ -7,58 +7,89 @@ on:
     branches: [ master ]
 
 jobs:
-  linux:
+  linux32:
     runs-on: ubuntu-latest
     steps:
-    - name: update apt index
-      run: sudo apt-get update
-    - name: 32bit libs
-      run: sudo apt-get install gcc-multilib g++-multilib
-    - uses: actions/checkout@v2
-    - name: make
-      run: make
-    - name: Upload build artifact x86
-      uses: actions/upload-artifact@v2
-      with:
-        name: extension
-        path: reflection.so
-  windows:
-    runs-on: windows-latest
-    steps:
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1
       - uses: actions/checkout@v2
-      - name: Build solution Win32
-        run: msbuild /p:Configuration=Release /p:Platform=Win32
-      - name: Build solution x64
-        run: msbuild /p:Configuration=Release /p:Platform=x64
-      - run: copy D:\a\arma3-reflection\arma3-reflection\Release\arma3-reflection.dll reflection.dll
-      - name: Upload build artifact Win32
+      - name: gcc-multilib for cross compiling to 32bit
+        run: sudo apt-get install gcc-multilib
+      - name: get toolchain
+        with:
+          toolchain: stable
+          target: i686-unknown-linux-gnu
+        uses: actions-rs/toolchain@v1
+      - name: cargo build
+        run: cd extension && cargo build --release --target=i686-unknown-linux-gnu
+      - run: cp extension/target/i686-unknown-linux-gnu/release/libarma3_reflection.so reflection.so
+      - name: upload artifact linux32
         uses: actions/upload-artifact@v2
         with:
           name: extension
-          path: reflection.dll 
-      - run: copy D:\a\arma3-reflection\arma3-reflection\x64\Release\arma3-reflection.dll reflection_x64.dll
-      - name: Upload build artifact x64
-        uses: actions/upload-artifact@v2    
+          path: reflection.so
+  linux64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get toolchain
+        with:
+          toolchain: stable
+        uses: actions-rs/toolchain@v1
+      - name: cargo build
+        run: cd extension && cargo build --release
+      - run: cp extension/target/release/libarma3_reflection.so reflection_x64.so
+      - name: upload artifact linux64
+        uses: actions/upload-artifact@v2
         with:
           name: extension
-          path: reflection_x64.dll 
+          path: reflection_x64.so
+  windows32:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: i686-pc-windows-msvc
+      - name: cargo build win32
+        run: cd extension && cargo build --release --target=i686-pc-windows-msvc
+      - run: copy extension/target/i686-pc-windows-msvc/release/arma3_reflection.dll reflection.dll
+      - name: upload artifact win32
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: reflection.dll
+  windows64:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: get toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: cargo build win64
+        run: cd extension && cargo build --release
+      - run: copy extension/target/release/arma3_reflection.dll reflection_x64.dll
+      - name: upload artifact win64
+        uses: actions/upload-artifact@v2
+        with:
+          name: extension
+          path: reflection_x64.dll
   pack_mod:
     runs-on: ubuntu-latest
     name: build mod
-    needs: ["windows", "linux"]
-    steps:      
+    needs: ["linux32", "linux64", "windows32", "windows64"]
+    steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
         with:
           name: extension
       - name: copy compiled extensions into mod
-        run: cp *.dll *.so ./mod
+        run: cp -v *.dll *.so ./mod
       - name: pack
         id: pack
-        uses: gruppe-adler/action-release-with-hemtt@cwd
+        uses: gruppe-adler/action-release-with-hemtt@2.1.1
         with:
           cwd: ./mod
       - name: Upload artifact

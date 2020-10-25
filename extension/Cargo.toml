@@ -1,0 +1,12 @@
+[package]
+name = "arma3-reflection"
+version = "0.1.0"
+authors = ["Fusselwurm <fusselwurm@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type=["cdylib"]
+
+[dependencies]
+arma-rs = { git = "https://github.com/gruppe-adler/arma-rs", branch = "master"}
+

@@ -8,6 +8,7 @@ sig_version = 3
 
 files = [
     "reflection.so",
+    "reflection_x64.so",
     "reflection.dll",
     "reflection_x64.dll",
     "README.md"
