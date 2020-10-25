@@ -100,7 +100,7 @@ jobs:
   pack_and_upload_mod:
     runs-on: ubuntu-latest
     name: build & upload mod
-    needs: ["linux32", "linux64", "windows32", "windows64"]
+    needs: ["create_release", "linux32", "linux64", "windows32", "windows64"]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
