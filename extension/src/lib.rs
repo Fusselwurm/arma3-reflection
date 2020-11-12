@@ -43,14 +43,6 @@ fn get_argument(index: usize) -> String {
     }
 }
 
-/// just an alias, and a deprecated one
-#[rv]
-#[allow(dead_code)]
-#[deprecated(note = "do use get_option_first(name) instead")]
-fn arg(name: &String) -> String {
-    get_option_first(name)
-}
-
 #[rv]
 #[allow(dead_code)]
 fn get_cmdline_raw() -> String {
