@@ -22,6 +22,39 @@ mod test_get_params_file_contents {
     }
 }
 
+#[cfg(test)]
+mod test_tokenize_param_file {
+    use crate::get_command_line::tokenize_param_file;
+
+    fn check_result(tokens: &Vec<String>) {
+        assert_eq!(2, tokens.len());
+        assert_eq!(Some(&"foo".to_string()), tokens.get(0));
+        assert_eq!(Some(&"bar".to_string()), tokens.get(1));
+    }
+
+    #[test]
+    fn splits_at_nl() {
+        let str = "foo\nbar";
+        let tokens = tokenize_param_file(str);
+        check_result(&tokens);
+    }
+
+    #[test]
+    fn splits_at_nlcr() {
+        let str = "foo\r\nbar";
+        let tokens = tokenize_param_file(str);
+        check_result(&tokens);
+    }
+}
+
+fn tokenize_param_file(contents: &str) -> Vec<String> {
+    contents
+        .split(char::is_whitespace)
+        .map(|s| s.to_string())
+        .filter(|s| !s.is_empty())
+        .collect()
+}
+
 fn get_params_file_contents(filename: &str) -> Vec<String> {
     let mut contents = String::new();
     let path = env::current_dir();
@@ -44,11 +77,7 @@ fn get_params_file_contents(filename: &str) -> Vec<String> {
         Err(err) => panic!("cannot read file {}: {}", filename, err),
     };
 
-    contents
-        .split('\n')
-        .map(|s| s.to_string())
-        .filter(|s| !s.is_empty())
-        .collect()
+    tokenize_param_file(&contents)
 }
 
 pub fn get_command_line() -> CommandLine {
