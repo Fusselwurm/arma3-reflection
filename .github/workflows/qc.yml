@@ -18,13 +18,11 @@ jobs:
           toolchain: stable
           target: i686-unknown-linux-gnu
           components: rustfmt, clippy
-      - run: pushd extension
-      - name: Test
-        run: pushd extension && cargo test
-      - name: Check
-        run: pushd extension && cargo check
+      - name: Test with Coverage
+        run: cd extension && cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./extension/coverage/
+          directory: ./extension/target/tarpaulin/
+          fail_ci_if_error: true
