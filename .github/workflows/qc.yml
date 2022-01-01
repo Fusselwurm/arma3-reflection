@@ -18,6 +18,7 @@ jobs:
           toolchain: stable
           target: i686-unknown-linux-gnu
           components: rustfmt, clippy
+      - run: pushd
       - name: Test
         run: cargo test
       - name: Check
@@ -27,3 +28,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/
+      - run: popd
