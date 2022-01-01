@@ -2,30 +2,28 @@ name: quality checks
 
 on:
   push:
-    branches: [ master, qc ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
   qc:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x]
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: get toolchain
         uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
           target: i686-unknown-linux-gnu
           components: rustfmt, clippy
-      - name: test
+      - name: Test
         run: cargo test
-      -name: check
+      - name: Check
         run: cargo check
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/
