@@ -18,6 +18,8 @@ jobs:
           toolchain: stable
           target: i686-unknown-linux-gnu
           components: rustfmt, clippy
+      - name: Install Tarpaulin
+        run: sudo apt-get install libssl-dev pkg-config && cargo install cargo-tarpaulin
       - name: Test with Coverage
         run: cd extension && cargo tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml
       - name: Upload coverage to Codecov
