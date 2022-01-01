@@ -1,6 +1,6 @@
 ![master](https://github.com/Fusselwurm/arma3-reflection/workflows/compile/badge.svg)
 ![version](https://img.shields.io/github/v/release/Fusselwurm/arma3-reflection)
-[![codecov](https://codecov.io/gh/Fusselwurm/arma3-reflection/branch/master/graph/badge.svg)](https://codecov.io/gh/Fusselwurm/Fusselwurm)
+[![codecov](https://codecov.io/gh/Fusselwurm/arma3-reflection/branch/master/graph/badge.svg)](https://codecov.io/gh/Fusselwurm/arma3-reflection)
 
 # arma3-reflection
 
