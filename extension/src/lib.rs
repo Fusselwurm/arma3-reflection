@@ -6,6 +6,7 @@ use arma_rs::{rv, rv_handler};
 #[cfg(test)]
 mod tests {
     use crate::{get_argument, get_option_first, init};
+    use crate::get_command_line::{get_command_line};
 
     #[test]
     fn init_exists() {
@@ -20,6 +21,24 @@ mod tests {
     #[test]
     fn get_argument_does_not_fail() {
         assert!(get_argument(999).eq(""));
+    }
+
+    #[test]
+    fn get_argument_gets_arg() {
+        assert!(
+            get_argument(0).eq(get_command_line().arguments.get(0).expect("wtf")),
+            "0 = {:?}",
+            get_command_line().arguments.get(0).ok_or("EMPTY")
+        )
+    }
+
+    #[test]
+    fn get_parameter_gets_par() {
+        assert!(
+            get_option_first(&("-format").to_string()).eq("json") || get_option_first(&("-format").to_string()).eq("xml"),
+            "--format={}",
+            get_option_first(&("-format").to_string()).to_string()
+        );
     }
 }
 
