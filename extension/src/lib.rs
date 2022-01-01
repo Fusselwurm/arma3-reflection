@@ -1,4 +1,3 @@
-mod args_parser;
 mod get_command_line;
 
 use arma_rs::{rv, rv_handler};
@@ -35,9 +34,9 @@ mod tests {
     #[test]
     fn get_parameter_gets_par() {
         assert!(
-            get_option_first(&("-format").to_string()).eq("json") || get_option_first(&("-format").to_string()).eq("xml"),
-            "--format={}",
-            get_option_first(&("-format").to_string()).to_string()
+            get_option_first(&("mod").to_string()).eq("C:\\foo\\bar"),
+            "-mod={}",
+            get_option_first(&("mod").to_string()).to_string()
         );
     }
 }
