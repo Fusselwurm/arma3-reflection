@@ -6,7 +6,7 @@ use arma_rs::{rv, rv_handler};
 #[cfg(test)]
 mod tests {
     use crate::{get_argument, get_option_first, init};
-    use crate::get_command_line::{get_command_line};
+    use crate::get_command_line::{get_command_line_args};
 
     #[test]
     fn init_exists() {
@@ -26,9 +26,9 @@ mod tests {
     #[test]
     fn get_argument_gets_arg() {
         assert!(
-            get_argument(0).eq(get_command_line().arguments.get(0).expect("wtf")),
+            get_argument(0).eq(get_command_line_args().get(0).expect("wtf")),
             "0 = {:?}",
-            get_command_line().arguments.get(0).ok_or("EMPTY")
+            get_command_line_args().get(0).ok_or("EMPTY")
         )
     }
 
@@ -45,8 +45,8 @@ mod tests {
 #[rv]
 #[allow(dead_code)]
 fn get_option_first(name: &String) -> String {
-    let foo = get_command_line::get_command_line();
-    match foo.options.get(name) {
+    let foo = get_command_line::get_command_line_opts();
+    match foo.get(name) {
         Some(f) => f.to_string(),
         None => "".to_string(),
     }
@@ -55,8 +55,8 @@ fn get_option_first(name: &String) -> String {
 #[rv]
 #[allow(dead_code)]
 fn get_argument(index: usize) -> String {
-    let foo = get_command_line::get_command_line();
-    match foo.arguments.get(index) {
+    let foo = get_command_line::get_command_line_args();
+    match foo.get(index) {
         Some(f) => f.to_string(),
         None => "".to_string(),
     }

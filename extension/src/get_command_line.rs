@@ -4,11 +4,6 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 
-pub struct CommandLine {
-    pub arguments: Vec<String>,
-    pub options: HashMap<String, String>,
-}
-
 #[cfg(test)]
 mod test_get_params_file_contents {
     use crate::get_command_line::get_params_file_contents;
@@ -51,16 +46,11 @@ fn get_params_file_contents(filename: &str) -> Vec<String> {
         .collect()
 }
 
-pub fn get_command_line() -> CommandLine {
-    let parser = ArgsParser::new(&get_command_line_args());
-
-    CommandLine {
-        arguments: parser.get_arguments(),
-        options: parser.get_options(),
-    }
+pub fn get_command_line_opts() -> HashMap<String, String>{
+    ArgsParser::new(&get_command_line_args()).get_options()
 }
 
-fn get_command_line_args() -> Vec<String> {
+pub fn get_command_line_args() -> Vec<String> {
     let mut args: Vec<String> = env::args().collect();
     let parser = ArgsParser::new(&args);
 
