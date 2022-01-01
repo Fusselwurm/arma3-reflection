@@ -18,7 +18,7 @@ jobs:
           toolchain: stable
           target: i686-unknown-linux-gnu
           components: rustfmt, clippy
-      - run: pushd
+      - run: pushd extension
       - name: Test
         run: cargo test
       - name: Check
