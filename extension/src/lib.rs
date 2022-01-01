@@ -1,3 +1,4 @@
+mod args_parser;
 mod get_command_line;
 
 use arma_rs::{rv, rv_handler};
