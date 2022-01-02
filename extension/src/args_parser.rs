@@ -60,6 +60,9 @@ impl ArgsParser {
         ArgsParser { args: raw.clone() }
     }
 
+    /**
+     * "options" are those arguments starting with a dash. they may have values.
+     */
     pub fn get_options(&self) -> HashMap<String, String> {
         let mut hash = HashMap::new();
         let iter = self.args.iter();
@@ -83,6 +86,9 @@ impl ArgsParser {
         hash
     }
 
+    /**
+     * "arguments" are command line arguments without dash.
+     */
     pub fn get_arguments(&self) -> Vec<String> {
         self.args
             .iter()
