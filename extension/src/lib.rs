@@ -1,5 +1,6 @@
 mod args_parser;
 mod get_command_line;
+mod startup_parameters;
 
 use arma_rs::{rv, rv_handler};
 
