@@ -43,6 +43,13 @@ mod startup_parameters_test {
     }
 
     #[test]
+    #[should_panic]
+    fn panics_on_par_file_not_found() {
+        let foo = vec_of_strings!["-par=./resources/test_par_file_does_not_exist.txt"];
+        StartupParameters::new(ArgsParser::new(&foo.to_vec()));
+    }
+
+    #[test]
     fn reads_arguments_from_cli() {
         let foo = vec_of_strings!["-par=./resources/test_par_file.txt", "foo"];
         let pars = StartupParameters::new(ArgsParser::new(&foo.to_vec()));

@@ -71,7 +71,7 @@ impl ArgsParser {
                 let mut bits = s.split("=");
                 let mut k = match bits.next() {
                     Some(s) => s.to_string(),
-                    None => panic!("this should never happen"),
+                    None => panic!("this can never happen"),
                 };
                 let v = match bits.last() {
                     Some(v) => v.to_string(),
