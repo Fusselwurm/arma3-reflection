@@ -42,6 +42,7 @@ mod startup_parameters_test {
         assert_eq!(0, pars.get_arguments().len());
     }
 
+    #[test]
     fn reads_arguments_from_cli() {
         let foo = vec_of_strings!["-par=./resources/test_par_file.txt", "foo"];
         let pars = StartupParameters::new(ArgsParser::new(&foo.to_vec()));

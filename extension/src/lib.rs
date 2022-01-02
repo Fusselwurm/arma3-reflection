@@ -32,15 +32,6 @@ mod tests {
             get_command_line_args().get(0).ok_or("EMPTY")
         )
     }
-
-    #[test]
-    fn get_parameter_gets_par() {
-        assert!(
-            get_option_first(&("mod").to_string()).eq("C:\\foo\\bar"),
-            "-mod={}",
-            get_option_first(&("mod").to_string()).to_string()
-        );
-    }
 }
 
 #[rv]
