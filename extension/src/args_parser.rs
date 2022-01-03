@@ -27,7 +27,10 @@ impl ArgsParser {
                     Some(v) => v.to_string(),
                     None => "".to_string(),
                 };
-                hash.insert(k.split_off(1), v);
+                let hashKey = k.split_off(1);
+                if !hash.contains_key(&hashKey) {
+                    hash.insert(hashKey, v);
+                }
             } else {
                 // hash.insert(s.to_string().split_off(1), val);
             }
