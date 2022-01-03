@@ -1,6 +1,5 @@
 use crate::args_parser::ArgsParser;
 use std::collections::HashMap;
-use std::env;
 use crate::startup_parameters::StartupParameters;
 
 fn get_args_parser(args: &Vec<String>) -> ArgsParser {
@@ -13,6 +12,22 @@ pub fn get_command_line_opts(args: &Vec<String>) -> HashMap<String, String>{
 
 pub fn get_command_line_args(args: &Vec<String>) -> Vec<String> {
     StartupParameters::new(get_args_parser(args)).get_arguments()
+}
+
+pub fn get_argument(args: &Vec<String>, index: usize) -> String {
+    let foo = get_command_line_args(args);
+    match foo.get(index) {
+        Some(f) => f.to_string(),
+        None => "".to_string(),
+    }
+}
+
+pub fn get_option_first(args: &Vec<String>, name: &String) -> String {
+    let foo = get_command_line_opts(args);
+    match foo.get(name) {
+        Some(f) => f.to_string(),
+        None => "".to_string(),
+    }
 }
 
 pub fn get_command_line_raw(args: &Vec<String>) -> String {

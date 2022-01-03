@@ -1,7 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use crate::{get_argument, get_option_first, init};
-    use crate::get_command_line::{get_command_line_args};
+    use crate::{get_argument, get_option_first, get_cmdline_raw, init};
 
     #[test]
     fn init_exists() {
@@ -16,5 +15,10 @@ mod tests {
     #[test]
     fn get_argument_does_not_fail() {
         assert!(get_argument(999).eq(""));
+    }
+
+    #[test]
+    fn get_cmdline_raw_does_not_fail() {
+        assert_ne!(get_cmdline_raw(), "".to_string());
     }
 }

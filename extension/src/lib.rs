@@ -16,21 +16,13 @@ fn args() -> Vec<String> {
 #[rv]
 #[allow(dead_code)]
 fn get_option_first(name: &String) -> String {
-    let foo = get_command_line::get_command_line_opts(&args());
-    match foo.get(name) {
-        Some(f) => f.to_string(),
-        None => "".to_string(),
-    }
+    get_command_line::get_option_first(&args(), name)
 }
 
 #[rv]
 #[allow(dead_code)]
 fn get_argument(index: usize) -> String {
-    let foo = get_command_line::get_command_line_args(&args());
-    match foo.get(index) {
-        Some(f) => f.to_string(),
-        None => "".to_string(),
-    }
+    get_command_line::get_argument(&args(), index)
 }
 
 /// just an alias, and a deprecated one
@@ -46,7 +38,6 @@ fn arg(name: &String) -> String {
 fn get_cmdline_raw() -> String {
     get_command_line::get_command_line_raw(&args())
 }
-
 
 #[rv_handler]
 fn init() {}

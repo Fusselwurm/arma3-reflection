@@ -1,6 +1,3 @@
-use core::option::Option::Some;
-use std::collections::HashMap;
-
 #[cfg(test)]
 mod args_parser_test {
     use crate::args_parser::ArgsParser;
