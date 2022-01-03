@@ -32,3 +32,6 @@ return `-port` parameter value or 0
         [] call arma3_reflection_args_fnc_port
 ```        
 
+## dev
+
+this extension is being created using https://github.com/BrettMayson/arma-rs
