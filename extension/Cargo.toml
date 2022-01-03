@@ -1,6 +1,6 @@
 [package]
 name = "arma3-reflection"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Fusselwurm <fusselwurm@gmail.com>"]
 edition = "2021"
 
@@ -8,4 +8,4 @@ edition = "2021"
 crate-type=["cdylib"]
 
 [dependencies]
-arma-rs = { git = "https://github.com/BrettMayson/arma-rs", branch = "legacy"}
+arma-rs = "1.3"

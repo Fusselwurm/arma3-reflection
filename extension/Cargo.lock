@@ -3,40 +3,59 @@
 version = 3
 
 [[package]]
-name = "aho-corasick"
-version = "0.7.18"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e37cfd5e7657ada45f742d6e99ca5788580b5c529dc78faf11ece6dc702656f"
-dependencies = [
- "memchr",
-]
-
-[[package]]
 name = "arma-rs"
-version = "0.3.0"
-source = "git+https://github.com/BrettMayson/arma-rs?branch=legacy#5352f114a5b4cf04eda868d54b3a0bf273834ef7"
+version = "1.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b180f27c335a69750ebe46f96c6d40ac39a326a46a9af00c5fed047eded02b8"
 dependencies = [
- "arma-rs-codegen",
+ "arma-rs-proc",
+ "crossbeam-queue",
  "libc",
+ "log",
 ]
 
 [[package]]
-name = "arma-rs-codegen"
-version = "0.2.0"
-source = "git+https://github.com/BrettMayson/arma-rs?branch=legacy#5352f114a5b4cf04eda868d54b3a0bf273834ef7"
+name = "arma-rs-proc"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1e18d521d37bcb8d3dc42e245b01b24fed1246a66f46ae9495db47c39e0d9a29"
 dependencies = [
- "lazy_static",
  "proc-macro2",
  "quote",
- "regex",
  "syn",
 ]
 
 [[package]]
 name = "arma3-reflection"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "arma-rs",
+]
+
+[[package]]
+name = "cfg-if"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+
+[[package]]
+name = "crossbeam-queue"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9b10ddc024425c88c2ad148c1b0fd53f4c6d38db9697c9f1588381212fa657c9"
+dependencies = [
+ "cfg-if",
+ "crossbeam-utils",
+]
+
+[[package]]
+name = "crossbeam-utils"
+version = "0.8.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d82cfc11ce7f2c3faef78d8a684447b40d503d9681acebed6cb728d45940c4db"
+dependencies = [
+ "cfg-if",
+ "lazy_static",
 ]
 
 [[package]]
@@ -52,10 +71,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2448f6066e80e3bfc792e9c98bf705b4b0fc6e8ef5b43e5889aff0eaa9c58743"
 
 [[package]]
-name = "memchr"
-version = "2.4.1"
+name = "log"
+version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
+checksum = "51b9bbe6c47d51fc3e1a9b945965946b4c44142ab8792c50835a980d362c2710"
+dependencies = [
+ "cfg-if",
+]
 
 [[package]]
 name = "proc-macro2"
@@ -74,23 +96,6 @@ checksum = "aa563d17ecb180e500da1cfd2b028310ac758de548efdd203e18f283af693f37"
 dependencies = [
  "proc-macro2",
 ]
-
-[[package]]
-name = "regex"
-version = "1.5.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d07a8629359eb56f1e2fb1652bb04212c072a87ba68546a04065d525673ac461"
-dependencies = [
- "aho-corasick",
- "memchr",
- "regex-syntax",
-]
-
-[[package]]
-name = "regex-syntax"
-version = "0.6.25"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f497285884f3fcff424ffc933e56d7cbca511def0c9831a7f9b5f6153e3cc89b"
 
 [[package]]
 name = "syn"
