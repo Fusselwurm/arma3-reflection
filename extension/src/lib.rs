@@ -1,46 +1,28 @@
 mod args_parser;
 mod get_command_line;
+mod startup_parameters;
+mod lib_test;
+mod startup_parameters_test;
+mod get_command_line_test;
+mod args_parser_test;
 
+use std::env;
 use arma_rs::{rv, rv_handler};
 
-#[cfg(test)]
-mod tests {
-    use crate::{get_argument, get_option_first, init};
-
-    #[test]
-    fn init_exists() {
-        init();
-    }
-
-    #[test]
-    fn get_parameter_does_not_fail() {
-        assert!(get_option_first(&("foo").to_string()).eq(""));
-    }
-
-    #[test]
-    fn get_argument_does_not_fail() {
-        assert!(get_argument(999).eq(""));
-    }
+fn args() -> Vec<String> {
+    env::args().collect()
 }
 
 #[rv]
 #[allow(dead_code)]
 fn get_option_first(name: &String) -> String {
-    let foo = get_command_line::get_command_line();
-    match foo.options.get(name) {
-        Some(f) => f.to_string(),
-        None => "".to_string(),
-    }
+    get_command_line::get_option_first(&args(), name)
 }
 
 #[rv]
 #[allow(dead_code)]
 fn get_argument(index: usize) -> String {
-    let foo = get_command_line::get_command_line();
-    match foo.arguments.get(index) {
-        Some(f) => f.to_string(),
-        None => "".to_string(),
-    }
+    get_command_line::get_argument(&args(), index)
 }
 
 /// just an alias, and a deprecated one
@@ -54,9 +36,8 @@ fn arg(name: &String) -> String {
 #[rv]
 #[allow(dead_code)]
 fn get_cmdline_raw() -> String {
-    get_command_line::get_command_line_raw()
+    get_command_line::get_command_line_raw(&args())
 }
-
 
 #[rv_handler]
 fn init() {}
