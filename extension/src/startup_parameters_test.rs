@@ -35,10 +35,10 @@ mod startup_parameters_test {
     }
 
     #[test]
-    #[should_panic]
-    fn panics_on_par_file_not_found() {
+    fn ignores_par_file_not_found() {
         let foo = vec_of_strings!["-par=./resources/test_par_file_does_not_exist.txt"];
-        StartupParameters::new(ArgsParser::new(&foo.to_vec()));
+        let opts = StartupParameters::new(ArgsParser::new(&foo.to_vec())).get_options();
+        assert_eq!(1, opts.len());
     }
 
     #[test]
