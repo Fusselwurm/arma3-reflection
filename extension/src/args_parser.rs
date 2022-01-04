@@ -19,10 +19,7 @@ impl ArgsParser {
         iter.for_each(|s| {
             if s.starts_with('-') {
                 let mut bits = s.split("=");
-                let mut k = match bits.next() {
-                    Some(s) => s.to_string(),
-                    None => panic!("this can never happen"),
-                };
+                let mut k = bits.next().unwrap().to_string();
                 let v = match bits.last() {
                     Some(v) => v.to_string(),
                     None => "".to_string(),

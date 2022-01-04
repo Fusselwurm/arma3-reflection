@@ -1,34 +1,24 @@
 use core::option::Option::Some;
 use std::collections::HashMap;
-use std::env;
+use std::io::Error;
 use std::fs::File;
 use std::io::Read;
 use std::string::String;
 use crate::args_parser::ArgsParser;
 
-pub fn get_params_file_contents(filename: &str) -> Vec<String> {
-    let mut contents = String::new();
-    let path = env::current_dir();
-    println!(
-        "current dir {}",
-        match path.ok().map(|p| p.to_str().map(|f| f.to_string())) {
-            Some(str) => match str {
-                Some(s) => s,
-                None => String::new(),
-            },
-            None => "[NO PATH]".to_string(),
-        }
-    );
-    let mut file = match File::open(filename) {
-        Ok(file) => file,
-        Err(err) => panic!("cannot open file {}: {}", filename, err),
-    };
-    match file.read_to_string(&mut contents) {
-        Ok(size) => println!("read {} bytes from params file {}", size, filename),
-        Err(err) => panic!("cannot read file {}: {}", filename, err),
-    };
+fn read_string(mut r: File) -> Result<String, Error> {
+    let mut contents: String = String::new();
+    let bytes_read = r.read_to_string(&mut contents);
+    match bytes_read {
+        Ok(count) => {println!("read {} bytes from params file", count); Ok(contents)},
+        Err(e) => {println!("could not read file: {}", e); Err(e)},
+    }
+}
 
-    contents
+pub fn get_params_file_contents(filename: &str) -> Vec<String> {
+    let file_read_result = File::open(filename).and_then(read_string);
+
+    file_read_result.unwrap_or("".to_string())
         .split('\n')
         .map(|s| s.to_string())
         .filter(|s| !s.is_empty())
