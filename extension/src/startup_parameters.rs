@@ -32,7 +32,8 @@ pub struct StartupParameters {
 
 impl StartupParameters {
     pub fn new(env_args_parser: ArgsParser) -> StartupParameters {
-        let parfile_args: Vec<String> = match env_args_parser.get_options().get("par") {
+        // TODO check if first or last -par value is taken
+        let parfile_args: Vec<String> = match env_args_parser.get_options().get("par").unwrap_or(&Vec::new()).last() {
             Some(filename) => {
                 get_params_file_contents(filename)
             }
@@ -43,9 +44,9 @@ impl StartupParameters {
         StartupParameters { env_args_parser, parameter_file_args_parser }
     }
 
-    pub fn get_options(&self) -> HashMap<String, String> {
-        let mut env_opts: HashMap<String, String> = self.env_args_parser.get_options();
-        let par_opts: HashMap<String, String> = self.parameter_file_args_parser.get_options();
+    pub fn get_options(&self) -> HashMap<String, Vec<String>> {
+        let mut env_opts: HashMap<String, Vec<String>> = self.env_args_parser.get_options();
+        let par_opts: HashMap<String, Vec<String>> = self.parameter_file_args_parser.get_options();
 
         env_opts.extend(par_opts);
         env_opts

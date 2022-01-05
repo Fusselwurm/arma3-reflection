@@ -17,8 +17,11 @@ fn get_option_first(name: String) -> String {
     get_command_line::get_option_first(&args(), &name)
 }
 
-fn get_argument(index: String) -> String {
+fn get_option(name: String) -> Vec<String> {
+    get_command_line::get_option(&args(), &name)
+}
 
+fn get_argument(index: String) -> String {
     get_command_line::get_argument(&args(), index.parse().unwrap())
 }
 
@@ -32,5 +35,6 @@ fn init() -> Extension {
         .command("get_cmdline_raw", get_cmdline_raw)
         .command("get_argument", get_argument)
         .command("get_option_first", get_option_first)
+        .command("get_option", get_option)
         .finish()
 }

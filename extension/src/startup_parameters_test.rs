@@ -16,6 +16,7 @@ mod get_params_file_contents_test {
 
 #[cfg(test)]
 mod startup_parameters_test {
+    use arma_rs::IntoArma;
     use crate::args_parser::ArgsParser;
     use crate::startup_parameters::StartupParameters;
 
@@ -25,12 +26,12 @@ mod startup_parameters_test {
         let pars = StartupParameters::new(ArgsParser::new(&foo.to_vec()));
 
         for option in pars.get_options() {
-            println!("{} => {}", option.0, option.1)
+            println!("{} => {}", option.0, option.1.to_arma().to_string())
         }
         assert_eq!(3, pars.get_options().len());
-        assert_eq!(pars.get_options().get("par"), Option::Some(&"./resources/test_par_file.txt".to_string()));
-        assert_eq!(pars.get_options().get("mod"), Option::Some(&"C:\\foo\\bar;".to_string()));
-        assert_eq!(pars.get_options().get("otherparam"), Option::Some(&"".to_string()));
+        assert_eq!(pars.get_options().get("par").unwrap().to_vec(), vec![("./resources/test_par_file.txt".to_string())]);
+        assert_eq!(pars.get_options().get("mod").unwrap().to_vec(), vec![("C:\\foo\\bar;".to_string())]);
+        assert_eq!(pars.get_options().get("otherparam").unwrap().to_vec(), vec!["".to_string()]);
         assert_eq!(0, pars.get_arguments().len());
     }
 

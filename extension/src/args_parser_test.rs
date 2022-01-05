@@ -12,8 +12,8 @@ mod args_parser_test {
 
         let map = parser.get_options();
         let port = map.get("port").expect("no port value in result");
-
-        assert!(port.eq("2302"));
+        assert_eq!(1, port.len());
+        assert_eq!(port.get(0).unwrap().to_string(), "2302".to_string());
     }
 
     #[test]
@@ -23,7 +23,8 @@ mod args_parser_test {
         let map = parser.get_options();
         let foo = map.get("foo").expect("no foo key o.O");
 
-        assert_eq!(foo, "");
+        assert_eq!(1, foo.len());
+        assert_eq!(foo.get(0).unwrap().to_string(), "".to_string());
     }
 
     #[test]
