@@ -1,10 +1,7 @@
 #include "..\script_component.hpp"
 
-/**
- * return [error, value] with error == "" if everything is fine
- */
 params [
 	["_optName", "", [""]]
 ];
 
-assert("not implemented" isEqualTo false);
+parseSimpleArray ((["get_option", [_optName]] call EFUNC(main,call))#0)

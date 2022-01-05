@@ -2,3 +2,4 @@ extension/target
 mod/releases
 mod/addons/*.pbo
 mod/keys/*.bikey
+/extension/cobertura.xml

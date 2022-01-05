@@ -16,8 +16,20 @@ _response params [
 	["_returnCode", -1, [0]],
 	["_errorCode", -1, [0]]
 ];
-if (_result == "" && _returnCode == -1) then {
-		ERROR("no answer for reflection.so call. extension broken? :(");
+
+switch (_returnCode) do {
+    case -1: {ERROR("no answer for reflection.so call. extension broken? :(");};
+    case 0: {TRACE_1("successful call to %1", _method)};
+    case 1: {ERROR_1("command %1 not found", _method)};
+    case 4: {ERROR_1("attempted to write value larger than buffer in command %1", _method);};
+    default {
+        if (_returnCode >= 20 && _returnCode < 30) then {
+            ERROR_2("method %1 got %2 arguments", _method, count _params);
+        };
+        if (_returnCode >= 30 && _returnCode < 40) then {
+            ERROR_2("method %1 got invalid argument type at position %2", _method, _returnCode % 10);
+        };
+    };
 };
 
 [_result, _returnCode, _errorCode]

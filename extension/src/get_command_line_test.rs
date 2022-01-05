@@ -5,7 +5,7 @@ macro_rules! vec_of_strings {
 #[cfg(test)]
 mod get_command_line_test {
     use std::collections::HashMap;
-    use crate::get_command_line::{get_argument, get_command_line_args, get_command_line_opts, get_command_line_raw, get_option_first};
+    use crate::get_command_line::{get_argument, get_command_line_args, get_command_line_opts, get_command_line_raw, get_option_first, get_option};
 
     #[test]
     fn get_command_line_raw_returns_complete_command_line() {
@@ -38,6 +38,19 @@ mod get_command_line_test {
         assert_eq!(
             get_option_first(&vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz=z"], &"zoom".to_string()),
             "".to_string()
+        );
+    }
+
+    #[test]
+    fn get_option_gets_option_vec() {
+        let pars = &vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz", "-baz=a"];
+        assert_eq!(
+            get_option(pars, &"bar".to_string()),
+            vec_of_strings!["x", "y"]
+        );
+        assert_eq!(
+            get_option(pars, &"baz".to_string()),
+            vec_of_strings!["", "a"]
         );
     }
 
