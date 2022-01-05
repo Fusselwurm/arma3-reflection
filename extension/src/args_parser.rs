@@ -13,8 +13,8 @@ impl ArgsParser {
     /**
      * "options" are those arguments starting with a dash. they may have values.
      */
-    pub fn get_options(&self) -> HashMap<String, String> {
-        let mut hash = HashMap::new();
+    pub fn get_options(&self) -> HashMap<String, Vec<String>> {
+        let mut hash: HashMap<String, Vec<String>> = HashMap::new();
         let iter = self.args.iter();
         iter.for_each(|s| {
             if s.starts_with('-') {
@@ -25,11 +25,15 @@ impl ArgsParser {
                     None => "".to_string(),
                 };
                 let hash_key = k.split_off(1);
-                if !hash.contains_key(&hash_key) {
-                    hash.insert(hash_key, v);
-                }
-            } else {
-                // hash.insert(s.to_string().split_off(1), val);
+                match hash.get_mut(&hash_key)  {
+                    Some(vec) => vec.push(v),
+                    None => {
+                        let mut vec = vec![];
+                        vec.push(v);
+                        hash.insert(hash_key, vec);
+                    },
+                };
+
             }
         });
 

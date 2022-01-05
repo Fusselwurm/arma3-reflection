@@ -17,7 +17,7 @@ mod get_command_line_test {
     fn get_command_line_opts_gets_all_opts() {
         assert_eq!(
             get_command_line_opts(&vec_of_strings!["foo", "-bar", "-baz=x"]),
-            HashMap::from([("bar".to_string(), "".to_string()), ("baz".to_string(), "x".to_string())])
+            HashMap::from([("bar".to_string(), vec!["".to_string()]), ("baz".to_string(), vec!["x".to_string()])])
         )
     }
 
