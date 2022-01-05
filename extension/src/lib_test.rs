@@ -10,6 +10,13 @@ mod tests {
     }
 
     #[test]
+    fn get_option_does_not_fail() {
+        let extension = init().testing();
+        let (output, _) = unsafe { extension.call("get_option", Some(vec!["foo_i_dont_exist".to_string()])) };
+        assert_eq!(output, "[]");
+    }
+
+    #[test]
     fn get_argument_does_not_fail() {
         let extension = init().testing();
         let (output, _) = unsafe { extension.call("get_argument", Some(vec!["999".to_string()])) };
