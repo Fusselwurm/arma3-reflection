@@ -29,4 +29,16 @@ mod tests {
         let (output, _) = unsafe { extension.call("get_cmdline_raw", None) };
         assert_ne!(output, "");
     }
+
+    #[test]
+    fn get_string_of_len_works() {
+        let extension = init().testing();
+        let (output, _) = unsafe { extension.call("get_string_of_len", None) };
+        assert_eq!(output, "");
+        let (output, _) = unsafe { extension.call("get_string_of_len", Some(vec!["22".to_string()])) };
+        assert_eq!(output, "xxxxxxxxxxxxxxxxxxxxxx");
+
+        let (output, _) = unsafe { extension.call("get_string_of_len", Some(vec!["-5".to_string()])) };
+        assert_eq!(output, "");
+    }
 }

@@ -29,6 +29,10 @@ fn get_cmdline_raw() -> String {
     get_command_line::get_command_line_raw(&args())
 }
 
+fn get_string_of_len(len: u32) -> String {
+    "x".to_string().repeat(len as usize)
+}
+
 #[arma]
 fn init() -> Extension {
     Extension::build()
@@ -36,5 +40,6 @@ fn init() -> Extension {
         .command("get_argument", get_argument)
         .command("get_option_first", get_option_first)
         .command("get_option", get_option)
+        .command("get_string_of_len", get_string_of_len)
         .finish()
 }
