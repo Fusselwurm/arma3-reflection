@@ -34,6 +34,10 @@ impl Commandline {
         }
     }
 
+    pub fn get_option(&self, name: &String) -> Vec<String> {
+        self.get_command_line_opts().get(name).unwrap_or(&Vec::new()).to_vec()
+    }
+
     pub fn get_command_line(&self, index: usize) -> String {
         let s = self.get_command_line_complete();
         let from = min(s.len(), index * self.max_return_str_len);
@@ -41,17 +45,7 @@ impl Commandline {
         s[from..to].to_string()
     }
 
-    pub fn get_option_first(&self, name: &String) -> String {
-        let foo = self.get_command_line_opts();
-        match foo.get(name) {
-            Some(f) => f.first().unwrap_or(&"".to_string()).to_string(),
-            None => "".to_string(),
-        }
-    }
 
-    pub fn get_option(&self, name: &String) -> Vec<String> {
-        self.get_command_line_opts().get(name).unwrap_or(&Vec::new()).to_vec()
-    }
 
     fn get_command_line_complete(&self) -> String {
         self.args.join(" ")

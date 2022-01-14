@@ -33,19 +33,6 @@ mod get_command_line_test {
     }
 
     #[test]
-    fn get_option_first_gets_option() {
-        let commandline: Commandline = Commandline::new(vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz=z"], 1024);
-        assert_eq!(
-            commandline.get_option_first(&"bar".to_string()),
-            "x".to_string()
-        );
-        assert_eq!(
-            commandline.get_option_first(&"zoom".to_string()),
-            "".to_string()
-        );
-    }
-
-    #[test]
     fn get_option_gets_option_vec() {
         let pars = vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz", "-baz=a"];
         let commandline: Commandline = Commandline::new(pars.clone(), 1024);
