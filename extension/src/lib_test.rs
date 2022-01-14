@@ -26,7 +26,7 @@ mod tests {
     #[test]
     fn get_cmdline_raw_does_not_fail() {
         let extension = init().testing();
-        let (output, _) = unsafe { extension.call("get_cmdline_raw", None) };
+        let (output, _) = unsafe { extension.call("get_commandline_raw", Some(vec!["0".to_string()])) };
         assert_ne!(output, "");
     }
 

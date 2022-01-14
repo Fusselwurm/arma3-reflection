@@ -34,8 +34,8 @@ impl Commandline {
         }
     }
 
-    pub fn get_command_line_raw_idx(&self, index: usize) -> String {
-        let s = self.get_command_line_raw();
+    pub fn get_command_line(&self, index: usize) -> String {
+        let s = self.get_command_line_complete();
         let from = min(s.len(), index * self.max_return_str_len);
         let to = min(s.len(), (index + 1) * self.max_return_str_len);
         s[from..to].to_string()
@@ -53,7 +53,7 @@ impl Commandline {
         self.get_command_line_opts().get(name).unwrap_or(&Vec::new()).to_vec()
     }
 
-    pub fn get_command_line_raw(&self) -> String {
+    fn get_command_line_complete(&self) -> String {
         self.args.join(" ")
     }
 

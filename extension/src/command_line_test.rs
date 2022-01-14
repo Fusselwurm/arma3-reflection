@@ -10,7 +10,7 @@ mod get_command_line_test {
     #[test]
     fn get_command_line_raw_returns_complete_command_line() {
         let commandline: Commandline = Commandline::new(vec_of_strings!["foo", "bar", "-baz=x;"], 50);
-        assert_eq!(commandline.get_command_line_raw(), "foo bar -baz=x;")
+        assert_eq!(commandline.get_command_line(0), "foo bar -baz=x;")
     }
 
 
@@ -79,34 +79,20 @@ mod get_command_line_test {
             vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz=z"],
             5
         );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(0),
-            "foo -".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(1),
-            "bar=x".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(2),
-            " -bar".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(3),
-            "=y -b".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(4),
-            "az=z".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(5),
-            "".to_string()
-        );
-        assert_eq!(
-            commandline.get_command_line_raw_idx(6),
-            "".to_string()
-        );
-    }
 
+        [
+            (0, "foo -"),
+            (1, "bar=x"),
+            (2, " -bar"),
+            (3, "=y -b"),
+            (4, "az=z"),
+            (5, ""),
+            (6, ""),
+        ].iter().for_each(|e| {
+            assert_eq!(
+                commandline.get_command_line(e.0),
+                e.1.to_string()
+            );
+        });
+    }
 }

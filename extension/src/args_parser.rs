@@ -22,7 +22,7 @@ impl ArgsParser {
                 let mut k = bits.next().unwrap().to_string();
                 let v = match bits.last() {
                     Some(v) => v.to_string(),
-                    None => "".to_string(),
+                    None => "".to_string()
                 };
                 let hash_key = k.split_off(1);
                 match hash.get_mut(&hash_key)  {
