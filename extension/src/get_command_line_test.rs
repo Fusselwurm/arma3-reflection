@@ -73,4 +73,40 @@ mod get_command_line_test {
         );
     }
 
+    #[test]
+    fn get_command_line_raw_idx() {
+        let commandline: Commandline = Commandline::new(
+            vec_of_strings!["foo", "-bar=x", "-bar=y", "-baz=z"],
+            5
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(0),
+            "foo -".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(1),
+            "bar=x".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(2),
+            " -bar".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(3),
+            "=y -b".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(4),
+            "az=z".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(5),
+            "".to_string()
+        );
+        assert_eq!(
+            commandline.get_command_line_raw_idx(6),
+            "".to_string()
+        );
+    }
+
 }
