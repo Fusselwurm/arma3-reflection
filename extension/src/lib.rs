@@ -8,25 +8,30 @@ mod args_parser_test;
 
 use std::env;
 use arma_rs::{Extension, arma};
+use crate::get_command_line::Commandline;
 
-fn args() -> Vec<String> {
-    env::args().collect()
+fn get_command_line() -> Commandline {
+    Commandline::new(env::args().collect(), (10240 - 8) / 4)
 }
 
 fn get_option_first(name: String) -> String {
-    get_command_line::get_option_first(&args(), &name)
+    get_command_line().get_option_first(&name)
 }
 
 fn get_option(name: String) -> Vec<String> {
-    get_command_line::get_option(&args(), &name)
+    get_command_line().get_option(&name)
 }
 
-fn get_argument(index: String) -> String {
-    get_command_line::get_argument(&args(), index.parse().unwrap())
+fn get_argument(index: u16) -> String {
+    get_command_line().get_argument(index as usize)
 }
 
 fn get_cmdline_raw() -> String {
-    get_command_line::get_command_line_raw(&args())
+    get_command_line().get_command_line_raw()
+}
+
+fn get_cmdline_raw_idx(index: u16) -> String {
+    get_command_line().get_command_line_raw_idx(index as usize)
 }
 
 fn get_string_of_len(len: u32) -> String {
@@ -37,6 +42,7 @@ fn get_string_of_len(len: u32) -> String {
 fn init() -> Extension {
     Extension::build()
         .command("get_cmdline_raw", get_cmdline_raw)
+        .command("get_cmdline_raw_idx", get_cmdline_raw_idx)
         .command("get_argument", get_argument)
         .command("get_option_first", get_option_first)
         .command("get_option", get_option)
