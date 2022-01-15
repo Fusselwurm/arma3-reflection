@@ -24,11 +24,11 @@ mod get_command_line_test {
     }
 
     #[test]
-    fn get_command_line_args_gets_all_non_opt_args() {
+    fn get_command_line_args_gets_all_args() {
         let commandline: Commandline = Commandline::new(vec_of_strings!["foo", "-bar", "-baz=x", "bork"], 1024);
         assert_eq!(
             commandline.get_command_line_args(),
-            vec_of_strings!["foo", "bork"]
+            vec_of_strings!["foo", "-bar", "-baz=x", "bork"]
         )
     }
 

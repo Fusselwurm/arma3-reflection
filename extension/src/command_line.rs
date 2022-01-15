@@ -19,11 +19,11 @@ impl Commandline {
     }
 
     pub fn get_command_line_opts(&self) -> HashMap<String, Vec<String>>{
-        StartupParameters::new(get_args_parser(self.args.clone())).get_options()
+        StartupParameters::new(get_args_parser(self.args.clone())).options()
     }
 
     pub fn get_command_line_args(&self) -> Vec<String> {
-        StartupParameters::new(get_args_parser(self.args.clone())).get_arguments()
+        StartupParameters::new(get_args_parser(self.args.clone())).arguments()
     }
 
     pub fn get_argument(&self, index: usize) -> String {

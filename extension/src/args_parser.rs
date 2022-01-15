@@ -7,7 +7,20 @@ pub struct ArgsParser {
 
 impl ArgsParser {
     pub fn new(args: Vec<String>) -> ArgsParser {
-        ArgsParser { args }
+        ArgsParser { args: ArgsParser::split_at_newline(args.clone()) }
+    }
+
+    fn split_at_newline(args: Vec<String>) -> Vec<String> {
+        args.iter()
+            .flat_map(|s| {
+                // oh no, I will *not* do the string delimiter dance. if it's in any way in quotes, i won't touch it
+                if s.contains('"') || s.contains('\'') {
+                    vec![s.clone()]
+                } else {
+                    s.split_ascii_whitespace().map(|s| {s.to_string()}).collect()
+                }
+            })
+            .collect()
     }
 
     /**

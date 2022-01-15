@@ -24,26 +24,26 @@ mod startup_parameters_test {
     fn reads_test_param_file() {
         let pars = StartupParameters::new(ArgsParser::new(vec_of_strings!["-par=./resources/test_par_file.txt"]));
 
-        for option in pars.get_options() {
+        for option in pars.options() {
             println!("{} => {}", option.0, option.1.to_arma().to_string())
         }
-        assert_eq!(3, pars.get_options().len());
-        assert_eq!(pars.get_options().get("par").unwrap().to_vec(), vec![("./resources/test_par_file.txt".to_string())]);
-        assert_eq!(pars.get_options().get("mod").unwrap().to_vec(), vec![("C:\\foo\\bar;".to_string())]);
-        assert_eq!(pars.get_options().get("otherparam").unwrap().to_vec(), vec!["".to_string()]);
-        assert_eq!(0, pars.get_arguments().len());
+        assert_eq!(3, pars.options().len());
+        assert_eq!(pars.options().get("par").unwrap().to_vec(), vec![("./resources/test_par_file.txt".to_string())]);
+        assert_eq!(pars.options().get("mod").unwrap().to_vec(), vec![("C:\\foo\\bar;".to_string())]);
+        assert_eq!(pars.options().get("otherparam").unwrap().to_vec(), vec!["".to_string()]);
+        assert_eq!(3, pars.arguments().len());
     }
 
     #[test]
     fn ignores_par_file_not_found() {
-        let opts = StartupParameters::new(ArgsParser::new(vec_of_strings!["-par=./resources/test_par_file_does_not_exist.txt"])).get_options();
+        let opts = StartupParameters::new(ArgsParser::new(vec_of_strings!["-par=./resources/test_par_file_does_not_exist.txt"])).options();
         assert_eq!(1, opts.len());
     }
 
     #[test]
     fn reads_arguments_from_cli() {
         let pars = StartupParameters::new(ArgsParser::new(vec_of_strings!["-par=./resources/test_par_file.txt", "foo"]));
-        assert_eq!(pars.get_arguments().len(), 1);
-        assert_eq!(pars.get_arguments().get(0), Option::Some(&"foo".to_string()));
+        assert_eq!(pars.arguments().len(), 4);
+        assert_eq!(pars.arguments().get(1), Option::Some(&"foo".to_string()));
     }
 }

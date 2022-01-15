@@ -44,7 +44,7 @@ impl StartupParameters {
         StartupParameters { env_args_parser, parameter_file_args_parser }
     }
 
-    pub fn get_options(&self) -> HashMap<String, Vec<String>> {
+    pub fn options(&self) -> HashMap<String, Vec<String>> {
         let mut env_opts: HashMap<String, Vec<String>> = self.env_args_parser.options();
         let par_opts: HashMap<String, Vec<String>> = self.parameter_file_args_parser.options();
 
@@ -52,7 +52,7 @@ impl StartupParameters {
         env_opts
     }
 
-    pub fn get_arguments(&self) -> Vec<String> {
+    pub fn arguments(&self) -> Vec<String> {
         let mut env_args = self.env_args_parser.arguments();
         let par_args = self.parameter_file_args_parser.arguments();
 

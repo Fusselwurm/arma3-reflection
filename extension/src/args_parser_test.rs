@@ -44,4 +44,14 @@ mod args_parser_test {
             vec_of_strings!["/something/bin/arma3", "foo", "bar", "-baz=boom"]
         );
     }
+
+    #[test]
+    fn arguments_does_split_at_newline() {
+        let parser = ArgsParser::new(vec_of_strings!["/something/bin/arma3", "-foo\n-bar\r-baz", "-baz=boom"]);
+
+        assert_eq!(
+            parser.arguments(),
+            vec_of_strings!["/something/bin/arma3", "-foo", "-bar", "-baz", "-baz=boom"]
+        );
+    }
 }
