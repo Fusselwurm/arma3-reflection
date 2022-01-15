@@ -36,6 +36,23 @@ mod args_parser_test {
     }
 
     #[test]
+    fn options_also_splits_at_newlines() {
+        let parser = ArgsParser::new(vec_of_strings!["-a=1\n-b=2"]);
+        assert_eq!(
+            parser.options().get("a"),
+            Some(&vec!["1".to_string()])
+        );
+        assert_eq!(
+            parser.options().get("b"),
+            Some(&vec!["2".to_string()])
+        );
+        assert_eq!(
+            parser.options().len(),
+            2
+        );
+    }
+
+    #[test]
     fn get_arguments_gets_arguments() {
         let parser = ArgsParser::new(vec_of_strings!["/something/bin/arma3", "foo", "bar", "-baz=boom"]);
 
