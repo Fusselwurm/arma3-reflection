@@ -46,7 +46,6 @@ impl ArgsParser {
     pub fn arguments(&self) -> Vec<String> {
         self.args
             .iter()
-            .filter(|arg| !arg.starts_with("-"))
             .map(|s| s.to_string())
             .collect::<Vec<_>>()
     }
