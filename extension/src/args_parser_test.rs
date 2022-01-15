@@ -83,16 +83,16 @@ mod args_parser_test {
     }
 
     #[test]
-    fn opts_in_quotes_are_not_touched()
+    fn opts_with_spaces_are_not_touched()
     {
-        let parser = ArgsParser::new(vec_of_strings!("-foo=\"bar baz\""));
+        let parser = ArgsParser::new(vec_of_strings!("-foo=bar baz"));
         assert_eq!(
             parser.arguments(),
-            vec_of_strings!("-foo=\"bar baz\"")
+            vec_of_strings!("-foo=bar baz")
         );
         assert_eq!(
             parser.options().get("foo"),
-            Some(&vec_of_strings!("\"bar baz\""))
+            Some(&vec_of_strings!("bar baz"))
         )
     }
 }

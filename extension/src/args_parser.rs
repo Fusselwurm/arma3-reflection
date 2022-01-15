@@ -24,7 +24,7 @@ impl ArgsParser {
                 if s.contains('"') || s.contains('\'') {
                     vec![s.clone()]
                 } else {
-                    s.split_ascii_whitespace().map(|s| {s.to_string()}).collect()
+                    s.split(|c| { c == '\r' || c == '\n' }).filter(|c| !c.is_empty()).map(|s| {s.to_string()}).collect()
                 }
             })
             .collect()
