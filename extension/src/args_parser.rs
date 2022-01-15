@@ -10,6 +10,13 @@ impl ArgsParser {
         ArgsParser { args: ArgsParser::split_at_newline(args.clone()) }
     }
 
+    /*
+        for some reason, on Windows at least, A3S passes additional params as-is (with newlines as separators).
+        so:
+         * A3S passes this: -x\n-y
+         * env::args() returns them as one -x\n-y
+         * Arma3 however recognizes -x -y as separate arguments
+     */
     fn split_at_newline(args: Vec<String>) -> Vec<String> {
         args.iter()
             .flat_map(|s| {
@@ -23,7 +30,7 @@ impl ArgsParser {
             .collect()
     }
 
-    /**
+    /*
      * "options" are those arguments starting with a dash. they may have values.
      */
     pub fn options(&self) -> HashMap<String, Vec<String>> {

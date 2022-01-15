@@ -81,4 +81,18 @@ mod args_parser_test {
             vec_of_strings!("foo", "bar", "baz")
         )
     }
+
+    #[test]
+    fn opts_in_quotes_are_not_touched()
+    {
+        let parser = ArgsParser::new(vec_of_strings!("-foo=\"bar baz\""));
+        assert_eq!(
+            parser.arguments(),
+            vec_of_strings!("-foo=\"bar baz\"")
+        );
+        assert_eq!(
+            parser.options().get("foo"),
+            Some(&vec_of_strings!("\"bar baz\""))
+        )
+    }
 }
