@@ -4,7 +4,7 @@ if (!GVAR(logCmdline)) exitWith {};
 
 ISNILS(GVAR(lineLength), 256);
 
-private _cmd = [] call EFUNC(args,getCmdlineRaw);
+private _cmd = [] call EFUNC(commandline,raw);
 
 INFO("### complete command line start ###");
 while {count _cmd > 0} do {
