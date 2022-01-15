@@ -6,7 +6,7 @@ class CfgPatches {
         units[] = {};
         weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
-        requiredAddons[] = {"arma3_reflection_args"};
+        requiredAddons[] = {"arma3_reflection_commandline"};
         author = "AUTHOR";
         VERSION_CONFIG;
     };
