@@ -54,4 +54,14 @@ mod args_parser_test {
             vec_of_strings!["/something/bin/arma3", "-foo", "-bar", "-baz", "-baz=boom"]
         );
     }
+
+    #[test]
+    fn arguments_does_count_consecutive_newlines_as_one_delimiter()
+    {
+        let parser = ArgsParser::new(vec_of_strings!["foo\n\r\nbar", "\nbaz"]);
+        assert_eq!(
+            parser.arguments(),
+            vec_of_strings!("foo", "bar", "baz")
+        )
+    }
 }
