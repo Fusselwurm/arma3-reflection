@@ -6,14 +6,14 @@ pub struct ArgsParser {
 }
 
 impl ArgsParser {
-    pub fn new(raw: &Vec<String>) -> ArgsParser {
-        ArgsParser { args: raw.clone() }
+    pub fn new(args: Vec<String>) -> ArgsParser {
+        ArgsParser { args }
     }
 
     /**
      * "options" are those arguments starting with a dash. they may have values.
      */
-    pub fn get_options(&self) -> HashMap<String, Vec<String>> {
+    pub fn options(&self) -> HashMap<String, Vec<String>> {
         let mut hash: HashMap<String, Vec<String>> = HashMap::new();
         let iter = self.args.iter();
         iter.for_each(|s| {
@@ -41,9 +41,9 @@ impl ArgsParser {
     }
 
     /**
-     * "arguments" are command line arguments without dash.
+     * "arguments" are raw command line arguments, delimited by space or line break (something with CR and NL)
      */
-    pub fn get_arguments(&self) -> Vec<String> {
+    pub fn arguments(&self) -> Vec<String> {
         self.args
             .iter()
             .filter(|arg| !arg.starts_with("-"))

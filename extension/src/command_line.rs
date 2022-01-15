@@ -3,7 +3,7 @@ use crate::args_parser::ArgsParser;
 use std::collections::HashMap;
 use crate::startup_parameters::StartupParameters;
 
-fn get_args_parser(args: &Vec<String>) -> ArgsParser {
+fn get_args_parser(args: Vec<String>) -> ArgsParser {
     ArgsParser::new(args)
 }
 
@@ -19,11 +19,11 @@ impl Commandline {
     }
 
     pub fn get_command_line_opts(&self) -> HashMap<String, Vec<String>>{
-        StartupParameters::new(get_args_parser(&self.args)).get_options()
+        StartupParameters::new(get_args_parser(self.args.clone())).get_options()
     }
 
     pub fn get_command_line_args(&self) -> Vec<String> {
-        StartupParameters::new(get_args_parser(&self.args)).get_arguments()
+        StartupParameters::new(get_args_parser(self.args.clone())).get_arguments()
     }
 
     pub fn get_argument(&self, index: usize) -> String {
