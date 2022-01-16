@@ -1,4 +1,4 @@
-#define COMPONENT args
+#define COMPONENT commandline
 #include "\z\arma3_reflection\addons\main\script_mod.hpp"
 
 // #define DEBUG_MODE_FULL

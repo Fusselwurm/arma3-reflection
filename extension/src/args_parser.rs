@@ -6,14 +6,33 @@ pub struct ArgsParser {
 }
 
 impl ArgsParser {
-    pub fn new(raw: &Vec<String>) -> ArgsParser {
-        ArgsParser { args: raw.clone() }
+    pub fn new(args: Vec<String>) -> ArgsParser {
+        ArgsParser { args: ArgsParser::split_at_newline(args.clone()) }
     }
 
-    /**
+    /*
+        for some reason, on Windows at least, A3S passes additional params as-is (with newlines as separators).
+        so:
+         * A3S passes this: -x\n-y
+         * env::args() returns them as one -x\n-y
+         * Arma3 however recognizes -x -y as separate arguments
+     */
+    fn split_at_newline(args: Vec<String>) -> Vec<String> {
+        args.iter()
+            .flat_map(|s| {
+                s
+                    .split(|c| { c == '\r' || c == '\n' })
+                    .filter(|c| !c.is_empty())
+                    .map(str::to_string)
+                    .collect::<Vec<String>>()
+            })
+            .collect()
+    }
+
+    /*
      * "options" are those arguments starting with a dash. they may have values.
      */
-    pub fn get_options(&self) -> HashMap<String, Vec<String>> {
+    pub fn options(&self) -> HashMap<String, Vec<String>> {
         let mut hash: HashMap<String, Vec<String>> = HashMap::new();
         let iter = self.args.iter();
         iter.for_each(|s| {
@@ -22,7 +41,7 @@ impl ArgsParser {
                 let mut k = bits.next().unwrap().to_string();
                 let v = match bits.last() {
                     Some(v) => v.to_string(),
-                    None => "".to_string(),
+                    None => "".to_string()
                 };
                 let hash_key = k.split_off(1);
                 match hash.get_mut(&hash_key)  {
@@ -41,12 +60,11 @@ impl ArgsParser {
     }
 
     /**
-     * "arguments" are command line arguments without dash.
+     * "arguments" are raw command line arguments, delimited by space or line break (something with CR and NL)
      */
-    pub fn get_arguments(&self) -> Vec<String> {
+    pub fn arguments(&self) -> Vec<String> {
         self.args
             .iter()
-            .filter(|arg| !arg.starts_with("-"))
             .map(|s| s.to_string())
             .collect::<Vec<_>>()
     }

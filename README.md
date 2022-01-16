@@ -12,25 +12,36 @@ Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=22
 
 ## Usage: the functions
 
-### arma3_reflection_args module
+### commandline addon
 
 This module contains functions to access the command line parameters Arma3 was started with.
 
-#### arma3_reflection_args_fnc_getOptionFirst
+#### arma3_reflection_commandline_fnc_option
 
-return first value of `_optionName` to be found in the command line arguments
+return values of `_optionName` to be found in the command line arguments
 
 ```sqf
-        [_optionName] call arma3_reflection_args_fnc_getOptionFirst
+        [_optionName] call arma3_reflection_commandline_fnc_option
 ```
 
-#### arma3_reflection_args_fnc_port
+#### arma3_reflection_commandline_fnc_port
 
 return `-port` parameter value or 0
 
 ```sqf
-        [] call arma3_reflection_args_fnc_port
+        [] call arma3_reflection_commandline_fnc_port
 ```        
+
+
+#### arma3_reflection_commandline_fnc_raw
+
+Returns complete commandline arma was started with.
+
+NOTE: This value gets written to RPT once at startup.
+
+```sqf
+        [] call arma3_reflection_commandline_fnc_raw
+```
 
 ## dev
 
