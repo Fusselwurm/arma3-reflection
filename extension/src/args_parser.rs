@@ -20,12 +20,11 @@ impl ArgsParser {
     fn split_at_newline(args: Vec<String>) -> Vec<String> {
         args.iter()
             .flat_map(|s| {
-                // oh no, I will *not* do the string delimiter dance. if it's in any way in quotes, i won't touch it
-                if s.contains('"') || s.contains('\'') {
-                    vec![s.clone()]
-                } else {
-                    s.split(|c| { c == '\r' || c == '\n' }).filter(|c| !c.is_empty()).map(|s| {s.to_string()}).collect()
-                }
+                s
+                    .split(|c| { c == '\r' || c == '\n' })
+                    .filter(|c| !c.is_empty())
+                    .map(str::to_string)
+                    .collect::<Vec<String>>()
             })
             .collect()
     }
