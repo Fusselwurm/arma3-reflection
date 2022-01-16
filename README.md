@@ -12,7 +12,7 @@ Get it from [Steam WS](https://steamcommunity.com/sharedfiles/filedetails/?id=22
 
 ## Usage: the functions
 
-### arma3_reflection_commandline module
+### commandline addon
 
 This module contains functions to access the command line parameters Arma3 was started with.
 
